@@ -38,7 +38,24 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
     hog_feats,img = hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
                     visualize=True, feature_vector=True)
     return hog_feats,img
+def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
+   # Quality level => between 0-1 which denotes the minimum quality of corner below which everyone is rejected
+   # distance => minimum euclidean distance between corners detected.
 
+   # With all this information, the function finds corners in the image. All
+   # corners below quality level are rejected. Then it sorts the remaining 
+   # corners based on quality in the descending order. Then function takes
+   # first strongest corner, throws away all the nearby corners in the range
+   # of minimum distance and returns N strongest corners.
+
+   corners = cv2.goodFeaturesToTrack(grayImage, noOfCorners, qualityLevel, distance)
+   corners = np.int0(corners)
+   # for i in corners:
+   #  x, y = i.ravel()
+   #  cv.circle(img, (x, y), 3, [255, 255, 0], -1)
+   #  cv.imshow('Shi-Tomasi Corner Detector', img)
+   return corners.reshape(corners.shape[0]*corners.shape[1]*corners.shape[2])
+  
 # path = "./Dataset/men/3/3_men (10).JPG"
 # img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 # img = cv2.resize(img, (128, 64))

@@ -1,4 +1,4 @@
-from SVM import *
+from RandomForest import *
 from CommonFunctions import *
 
 def load_data(directory):
@@ -30,7 +30,7 @@ def calc_accuracy(y_test, y_pred):
 
 
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
-    model, y_pred = svm_model(Xtrain, Xtest, ytrain)
+    model, y_pred = random_forest(Xtrain, Xtest, ytrain)
     calc_accuracy(ytest, y_pred)
     # model = XGBClassifier(random_state=0)
     
