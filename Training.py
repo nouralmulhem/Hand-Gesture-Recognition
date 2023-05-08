@@ -1,5 +1,5 @@
+from SVM import *
 from CommonFunctions import *
-
 
 def load_data(directory):
 
@@ -26,8 +26,8 @@ print(len(Xtest), len(ytest))
 
 
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
-    model = None # some model
-    
+    model,y_pred = SVM_Model(Xtrain, Xtest, ytrain, ytest)
+    calc_accuracy(ytest,y_pred)
     # model = XGBClassifier(random_state=0)
     
     # Xtrain = np.array(Xtrain)
@@ -38,3 +38,8 @@ def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     pickle.dump(model, open(model_path, 'wb'))
 
 classifier(Xtrain, Xtest, ytrain, ytest, 'model.pkl')
+
+def calc_accuracy(y_test, y_pred):
+    # Evaluate the performance of the SVM model
+    accuracy = accuracy_score(y_test, y_pred)
+    print('Accuracy:', accuracy)
