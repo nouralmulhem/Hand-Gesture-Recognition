@@ -2,3 +2,7 @@
 # build directories
 Dataset_0-5/
 Testset/
+data/
+Dataset/
+
+# .idea/

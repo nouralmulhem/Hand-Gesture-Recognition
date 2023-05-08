@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-path = "Dataset_0-5/img2.jpg"
+path = "Dataset_0-5/men/0/0_men (1).JPG"
 img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 img = cv2.resize(img, (4*128, 4*64))
 cv2.imshow("Image", img)
@@ -13,8 +13,10 @@ orb = cv2.ORB_create(nfeatures=1500)
 keypoints_sift, descriptors = sift.detectAndCompute(img, None)
 # keypoints_surf, descriptors = surf.detectAndCompute(img, None)
 keypoints_orb, descriptors = orb.detectAndCompute(img, None)
+keypoints_orb2 = orb.detect(img, None)
 print(len(keypoints_sift))
 print(len(keypoints_orb))
+print(len(keypoints_orb2))
 
 # img = cv2.drawKeypoints(img, keypoints_sift, None)
 # img = cv2.drawKeypoints(img, keypoints_surf, None)
