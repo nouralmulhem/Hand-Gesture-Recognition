@@ -26,7 +26,7 @@ print(len(Xtest), len(ytest))
 
 
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
-    model = # some model
+    model = None # some model
     
     # model = XGBClassifier(random_state=0)
     

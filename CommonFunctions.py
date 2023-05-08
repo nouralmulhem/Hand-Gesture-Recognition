@@ -22,8 +22,8 @@ cellSize = (8,8)
 nbins = 9
 
 
-hog = cv2.HOGDescriptor(winSize, blockSize, blockStride, cellSize, nbins)
-orb = cv2.ORB_create(nfeatures=10)
+hog = cv2.HOGDescriptor(winSize, blockSize, blockStride, cellSize, nbins) # hog of opencv
+orb = cv2.ORB_create(nfeatures=10) 
 
 
 
