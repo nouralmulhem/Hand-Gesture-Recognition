@@ -7,9 +7,9 @@ from sklearn.metrics import accuracy_score
 # iris = datasets.load_iris()
 # X = iris.data
 # y = iris.target
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
-def SVM_Model(X_train, X_test, y_train, y_test):
 # Split the dataset into training and testing sets
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+def svm_model(X_train, X_test, y_train):
 
     # Create an SVM model
     svm = SVC(kernel='linear', C=1, random_state=0)
