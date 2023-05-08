@@ -1,4 +1,4 @@
-py -3.11 -m pip install numpy
+py -3.11 -m pip install numpy 
 py -3.11 -m pip install scikit-learn
 py -3.11 -m pip install opencv-conrtib-python
 
