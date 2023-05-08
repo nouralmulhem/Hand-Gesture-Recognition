@@ -25,5 +25,5 @@ def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
 # img = cv.imread(path, cv.IMREAD_GRAYSCALE)
 # img = cv.resize(img, (128, 64))
 
-# features = shiThomasFeatureExtraction(img,100,0.01,10)
+# features = shiThomasFeatureExtraction(img,10,0.01,10)
 # print(features.reshape(features.shape[0]*features.shape[1]*features.shape[2]))
