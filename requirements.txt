@@ -1,4 +1,4 @@
-py -3.11 -m pip install numpy 
-py -3.11 -m pip install scikit-learn
-py -3.11 -m pip install opencv-conrtib-python
-
+numpy==1.24.3
+scikit_learn==1.2.2
+skimage==0.0
+xgboost==1.7.5

@@ -12,22 +12,26 @@ def load_data(directory):
     images_shuffled2 = features_extraction(images_shuffled)
     images_shuffled2 = images_shuffled2.reshape(n_samples,-1)
 
-    Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled2, target_names_shuffled, random_state=0, test_size=0.2)
+    Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled2, target_names_shuffled, random_state=0, test_size=0.3)
 
     return Xtrain, Xtest, ytrain, ytest 
     
 
 Xtrain, Xtest, ytrain, ytest =load_data(directory= './Dataset/')    
-print(Xtrain, ytrain)
-print(len(Xtrain), len(ytrain))
-print(Xtest, ytest)
-print(len(Xtest), len(ytest))
+# print(Xtrain, ytrain)
+# print(len(Xtrain), len(ytrain))
+# print(Xtest, ytest)
+# print(len(Xtest), len(ytest))
 
+def calc_accuracy(y_test, y_pred):
+    # Evaluate the performance of the SVM model
+    accuracy = accuracy_score(y_test, y_pred)
+    print('Accuracy:', accuracy*100)
 
 
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
-    model,y_pred = SVM_Model(Xtrain, Xtest, ytrain, ytest)
-    calc_accuracy(ytest,y_pred)
+    model, y_pred = svm_model(Xtrain, Xtest, ytrain)
+    calc_accuracy(ytest, y_pred)
     # model = XGBClassifier(random_state=0)
     
     # Xtrain = np.array(Xtrain)
@@ -37,9 +41,5 @@ def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     
     pickle.dump(model, open(model_path, 'wb'))
 
-classifier(Xtrain, Xtest, ytrain, ytest, 'model.pkl')
-
-def calc_accuracy(y_test, y_pred):
-    # Evaluate the performance of the SVM model
-    accuracy = accuracy_score(y_test, y_pred)
-    print('Accuracy:', accuracy)
+classifier(Xtrain, Xtest, ytrain, ytest, 'svm.pkl')
+# classifier(Xtrain, Xtest, ytrain, ytest, 'random_forest.pkl')

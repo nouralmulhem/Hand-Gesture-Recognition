@@ -37,16 +37,16 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
                     visualize=True, feature_vector=True)
     return hog_feats,img
 
-path = "men/3/3_men (10).JPG"
-img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-img = cv2.resize(img, (128, 64))
-cv2.imshow("Image", img)
+# path = "men/3/3_men (10).JPG"
+# img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+# img = cv2.resize(img, (4*128, 4*64))
+# cv2.imshow("Image", img)
 
-LBP_features = lbp(img, radius=3, n_points=8)
-print(LBP_features)
+# LBP_features = lbp(img, radius=3, n_points=8)
+# print(LBP_features)
 
-HOG_features,Hog_img = hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
-print(len(HOG_features))
-cv2.imshow("HOG", Hog_img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# HOG_features,Hog_img = hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+# print(len(HOG_features))
+# cv2.imshow("HOG", Hog_img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()

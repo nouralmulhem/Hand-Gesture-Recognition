@@ -13,6 +13,8 @@ import re
 import pickle
 from xgboost import XGBClassifier
 
+from Hog_LBP import *
+
 ##########################################################
 
 winSize = (16,16)
@@ -44,9 +46,10 @@ def obtain_images(directory, debug = False, prediction_mode = False):
             files_list = list(sorted( files_list, key=(lambda x:int(x[:-4])) ))
 
         for name in files_list:                
-            image=cv2.imread(os.path.join(path, name))
+            # image=cv2.imread(os.path.join(path, name))
             
-            image=cv2.resize(image, (4*128, 4*64))
+            image = cv2.imread(os.path.join(path, name), cv2.IMREAD_GRAYSCALE)
+            image=cv2.resize(image, (128, 64)) # multiply by 4
             # pre processing on the image (madbouly)
 
             if debug: 
@@ -67,10 +70,12 @@ def features_extraction(images):
     list = []
     
     # list = np.array([hog.compute(image)  for image in images])
-    
+
     for image in images:   
-        kp, des = orb.detectAndCompute(image, None)
-        list.append(kp)
+        # kp, des = orb.detectAndCompute(image, None)
+        HOG_features, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        
+        list.append(HOG_features)
 
     list = np.asarray(list)
     return list
