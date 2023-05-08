@@ -41,5 +41,6 @@ def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     
     pickle.dump(model, open(model_path, 'wb'))
 
-classifier(Xtrain, Xtest, ytrain, ytest, 'svm.pkl')
-# classifier(Xtrain, Xtest, ytrain, ytest, 'random_forest.pkl')
+classifier(Xtrain, Xtest, ytrain, ytest, './models/shi_thomas.pkl')
+# classifier(Xtrain, Xtest, ytrain, ytest, './models/svm.pkl')
+# classifier(Xtrain, Xtest, ytrain, ytest, './models/random_forest.pkl')

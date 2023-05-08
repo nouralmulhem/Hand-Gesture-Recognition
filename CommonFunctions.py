@@ -14,7 +14,7 @@ import pickle
 from xgboost import XGBClassifier
 
 from Hog_LBP import *
-
+from Shi_Thomas import *
 ##########################################################
 
 winSize = (16,16)
@@ -72,10 +72,11 @@ def features_extraction(images):
     # list = np.array([hog.compute(image)  for image in images])
 
     for image in images:   
-        # kp, des = orb.detectAndCompute(image, None)
-        HOG_features, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        # kp, features_list = orb.detectAndCompute(image, None)
+        features_list = shiThomasFeatureExtraction(image, 100, 0.01, 10)
+        # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         
-        list.append(HOG_features)
+        list.append(features_list)
 
     list = np.asarray(list)
     return list
