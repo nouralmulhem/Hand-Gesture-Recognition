@@ -1,5 +1,5 @@
 from SVM import *
-from CommonFunctions import *
+from utils import *
 
 def load_data(directory):
 
