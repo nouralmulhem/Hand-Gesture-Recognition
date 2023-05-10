@@ -1,5 +1,6 @@
 from SVM import *
 from utils import *
+from Performance import *
 
 def load_data(directory):
 
@@ -23,21 +24,17 @@ def load_data(directory):
     return Xtrain, Xtest, ytrain, ytest 
     
 
-Xtrain, Xtest, ytrain, ytest =load_data(directory= './Dataset/')    
+Xtrain, Xtest, ytrain, ytest =load_data(directory= './Small_Dataset/')    
 # print(Xtrain, ytrain)
 # print(len(Xtrain), len(ytrain))
 # print(Xtest, ytest)
 # print(len(Xtest), len(ytest))
 
-def calc_accuracy(y_test, y_pred):
-    # Evaluate the performance of the SVM model
-    accuracy = accuracy_score(y_test, y_pred)
-    print('Accuracy:', accuracy*100)
-
-
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     model, y_pred = svm_model(Xtrain, Xtest, ytrain)
     calc_accuracy(ytest, y_pred)
+    calc_confucion_matrix(ytest, y_pred, no_classes = 2)
+
     # model = XGBClassifier(random_state=0)
     
     # Xtrain = np.array(Xtrain)
