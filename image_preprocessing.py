@@ -108,27 +108,27 @@ def image_pre_processing(image):
     # Make float and divide by 255 to give BGRdash
     bgrdash = img_BGR.astype(np.float)/255.
 
-    # Calculate K as (1 - whatever is biggest out of Rdash, Gdash, Bdash)
-    K = 1 - np.max(bgrdash, axis=2)
+    # # Calculate K as (1 - whatever is biggest out of Rdash, Gdash, Bdash)
+    # K = 1 - np.max(bgrdash, axis=2)
 
-    # Calculate C
-    C = (1-bgrdash[..., 2] - K)/(1-K)
+    # # Calculate C
+    # C = (1-bgrdash[..., 2] - K)/(1-K)
 
-    # Calculate M
-    M = (1-bgrdash[..., 1] - K)/(1-K)
+    # # Calculate M
+    # M = (1-bgrdash[..., 1] - K)/(1-K)
 
-    # Calculate Y
-    Y = (1-bgrdash[..., 0] - K)/(1-K)
+    # # Calculate Y
+    # Y = (1-bgrdash[..., 0] - K)/(1-K)
 
-    # Combine 4 channels into single image and re-scale back up to uint8
-    CMYK = (np.dstack((C, M, Y, K)) * 255).astype(np.uint8)
+    # # Combine 4 channels into single image and re-scale back up to uint8
+    # CMYK = (np.dstack((C, M, Y, K)) * 255).astype(np.uint8)
     hls_img = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HLS)
     lab_img = cv.cvtColor(img_RGB, cv.COLOR_RGB2LAB)
 
     img_HSV_copy = img_HSV.copy()
     img_YCC_copy = img_YCC.copy()
     img_YUV_copy = img_YUV.copy()
-    CMYK_copy = CMYK.copy()
+    # CMYK_copy = CMYK.copy()
     hls_img_copy = hls_img.copy()
 
     img_HSV[:, :, 0] = cv2.equalizeHist(img_HSV[:, :, 0])
@@ -143,9 +143,9 @@ def image_pre_processing(image):
     img_YUV[:, :, 1] = cv2.equalizeHist(img_YUV[:, :, 1])
     img_YUV[:, :, 2] = cv2.equalizeHist(img_YUV[:, :, 2])
 
-    CMYK[:, :, 0] = cv2.equalizeHist(CMYK[:, :, 0])
-    CMYK[:, :, 1] = cv2.equalizeHist(CMYK[:, :, 1])
-    CMYK[:, :, 2] = cv2.equalizeHist(CMYK[:, :, 2])
+    # CMYK[:, :, 0] = cv2.equalizeHist(CMYK[:, :, 0])
+    # CMYK[:, :, 1] = cv2.equalizeHist(CMYK[:, :, 1])
+    # CMYK[:, :, 2] = cv2.equalizeHist(CMYK[:, :, 2])
 
     hls_img[:, :, 0] = cv2.equalizeHist(hls_img[:, :, 0])
     hls_img[:, :, 1] = cv2.equalizeHist(hls_img[:, :, 1])
@@ -206,7 +206,7 @@ def image_pre_processing(image):
     return mask, result
 
 
-image = Image.open("./Dataset/men/1/1_men (120).jpg").convert('RGB')
-img = np.array(image)
-binary, result = image_pre_processing(image)
-show_images([img, binary, result], ['origenal', 'binary ', 'result'])
+# image = Image.open("./Dataset/men/1/1_men (120).jpg").convert('RGB')
+# img = np.array(image)
+# binary, result = image_pre_processing(image)
+# show_images([img, binary, result], ['origenal', 'binary ', 'result'])
