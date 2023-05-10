@@ -1,4 +1,3 @@
-
 import pandas as pd
 from skimage.color import rgb2gray
 from skimage.measure import find_contours
@@ -11,9 +10,7 @@ import cv2 as cv
 import skimage.io as io
 from skimage.morphology import binary_erosion, binary_dilation, binary_closing, skeletonize, thin
 from skimage.filters import gaussian
-import xlwt
 from tempfile import TemporaryFile
-import pytesseract
 import numpy as np
 from matplotlib.pyplot import imshow
 from CommunFunction import *
@@ -22,8 +19,6 @@ import PIL
 import os
 import glob
 from PIL import Image
-
-get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 def resize(image, width=200, hsize=None):
@@ -86,39 +81,18 @@ def reduce_image(img, thickness):
 
 def get_binary_lowhigth_constract(img_RGB):
     img_HSV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HSV)
-    img_YCC = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2YCR_CB)
-    img_BGR = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2BGR)
-    img_YUV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2YUV)
-
-    # Make float and divide by 255 to give BGRdash
-    bgrdash = img_BGR.astype(np.float)/255.
-
-    # Calculate K as (1 - whatever is biggest out of Rdash, Gdash, Bdash)
-    K = 1 - np.max(bgrdash, axis=2)
-
-    # Calculate C
-    C = (1-bgrdash[..., 2] - K)/(1-K)
-
-    # Calculate M
-    M = (1-bgrdash[..., 1] - K)/(1-K)
-
-    # Calculate Y
-    Y = (1-bgrdash[..., 0] - K)/(1-K)
-
-    # Combine 4 channels into single image and re-scale back up to uint8
-    CMYK = (np.dstack((C, M, Y, K)) * 255).astype(np.uint8)
-    hls_img = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HLS)
-    lab_img = cv.cvtColor(img_RGB, cv.COLOR_RGB2LAB)
-
-    # show_images([img_HSV[:,:,0],img_HSV[:,:,1],img_HSV[:,:,0]])
+    img_HSV[:, :, 0] = cv2.equalizeHist(img_HSV[:, :, 0])
+    img_HSV[:, :, 1] = cv2.equalizeHist(img_HSV[:, :, 1])
+    img_HSV[:, :, 2] = cv2.equalizeHist(img_HSV[:, :, 2])
     ret, img_binary = cv2.threshold(
-        img_HSV[:, :, 1], 60, 255, cv2.THRESH_BINARY)
+        img_HSV[:, :, 1], 100, 255, cv2.THRESH_BINARY)
     kernel = np.ones((5, 5), np.uint8)
 
     # Apply erosion to the image
     erode_img = cv2.erode(img_binary, kernel, iterations=2)
     dilate_img = cv2.dilate(erode_img, kernel, iterations=2)
     return dilate_img
+
 
 def image_pre_processing(image):
     image = resize(image, 4 * 128, 4 * 64)
@@ -232,6 +206,7 @@ def image_pre_processing(image):
     return mask, result
 
 
-image = Image.open("data_set/men/3/2.jpg").convert('RGB')
+image = Image.open("./Dataset/men/1/1_men (120).jpg").convert('RGB')
+img = np.array(image)
 binary, result = image_pre_processing(image)
-show_images([binary, result], ['binary ', 'result'])
+show_images([img, binary, result], ['origenal', 'binary ', 'result'])
