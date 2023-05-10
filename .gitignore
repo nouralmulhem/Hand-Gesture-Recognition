@@ -1,9 +1,12 @@
 
 # build directories
-Dataset_0-5/
+Small_Dataset/
 Testset/
-men/
-Women/
 data/
 Dataset/
-Small_Dataset/
+
+# .idea/
+men/
+Women/
+
+models/
