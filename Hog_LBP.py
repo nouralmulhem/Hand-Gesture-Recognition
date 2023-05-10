@@ -48,18 +48,22 @@ def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
     # first strongest corner, throws away all the nearby corners in the range
     # of minimum distance and returns N strongest corners.
     corners = cv2.goodFeaturesToTrack(grayImage, noOfCorners, qualityLevel, distance)
-    corners = np.int0(corners)
-    # corners = corners.reshape(corners.shape[0], 2)
-    corner_values=[]
+    # corners = np.int0(corners)
+    
+    # print("coreners before",corners)
+    corners = corners.reshape(corners.shape[0], 2)
+    # print("coreners after",corners)
+
+    # corner_values=[]
     # if(len(corners)>0):
     #     corner_values = [grayImage[int(y), int(x)] for x, y in corners[:, 0]]
-    for i in corners:
-        x, y = i.ravel()
-        corner_values.append(grayImage[int(y), int(x)])
+    # for i in corners:
+    #     x, y = i.ravel()
+    #     corner_values.append(grayImage[int(y), int(x)])
     #  cv.circle(img, (x, y), 3, [255, 255, 0], -1)
     #  cv.imshow('Shi-Tomasi Corner Detector', img)
     # corner_values=np.array(corner_values, dtype=np.float32)
-    return corner_values
+    return corners
   
 # path = "./Dataset/men/3/3_men (10).JPG"
 # img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
