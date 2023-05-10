@@ -38,6 +38,9 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
     hog_feats,img = hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
                     visualize=True, feature_vector=True)
     return hog_feats,img
+
+
+
 def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
     # Quality level => between 0-1 which denotes the minimum quality of corner below which everyone is rejected
     # distance => minimum euclidean distance between corners detected.
@@ -51,7 +54,8 @@ def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
     # corners = np.int0(corners)
     
     # print("coreners before",corners)
-    corners = corners.reshape(corners.shape[0], 2)
+    # corners = corners.reshape(corners.shape[0], 2)
+    corners = corners.ravel()
     # print("coreners after",corners)
 
     # corner_values=[]
@@ -78,3 +82,23 @@ def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
 # cv2.imshow("HOG", Hog_img)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
+
+def ORB_features(img):
+    
+    orb = cv2.ORB_create(nfeatures=10)
+    keypoints_orb, descriptors = orb.detectAndCompute(img, None)
+
+    return keypoints_orb, descriptors
+
+# img = cv2.drawKeypoints(img, keypoints_orb, None)
+# cv2.imshow("Image", img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
+
+
+def SIFT_features(img):
+    
+    sift = cv2.SIFT_create()
+    keypoints_sift, descriptors = sift.detectAndCompute(img, None)
+
+    return keypoints_orb, descriptors
