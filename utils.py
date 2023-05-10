@@ -72,8 +72,8 @@ def features_extraction(images):
     all_size=0
     for image in images:   
         # kp, features_list = ORB_features(image)
-        shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
-        # hog,_ =hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        # shi = shiThomasFeatureExtraction(image,100, 0.3, 7,7)
+        hog,_ =hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         
         # print(type(shi))
         # shi=np.asarray(shi)
@@ -82,11 +82,10 @@ def features_extraction(images):
         # print(shi.shape)
         # print(hog.shape)
         # lbp_feature =lbp(image, radius=3, n_points=8)
-        
-        list.append(shi)
 
         # list.append(np.concatenate((hog, shi), axis = None))
-        # list.append(hog)
+        # list.append(shi)
+        list.append(hog)
         # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # list.append(features_list)
         
