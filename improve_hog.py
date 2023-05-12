@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import train_test_split
-from utils import tunning_feature_extraction
+from utils import *
 # Load positive and negative image samples
 y1,pos_images = tunning_feature_extraction("./Dataset/")
 y2,neg_images = tunning_feature_extraction("./Dataset/")
