@@ -109,3 +109,17 @@ def SIFT_features(img):
     keypoints_sift, descriptors = sift.detectAndCompute(img, None)
 
     return keypoints_sift, descriptors
+
+def convex_hall(img):
+    contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Find the convex hull of each contour and draw it on the image
+    convex=[]
+    for contour in contours:
+        hull = cv2.convexHull(contour)
+        hull=hull.reshape(-1)
+        convex.append(hull)
+    convex = np.array(convex)
+    convex = convex.reshape(-1)
+    print("done ",convex)
+    return convex
