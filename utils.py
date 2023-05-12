@@ -14,6 +14,8 @@ import pickle
 # from xgboost import XGBClassifier
 
 from Feature_Extraction import *
+
+import time
 ##########################################################
 
 winSize = (16, 16)
@@ -28,7 +30,7 @@ hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
                         cellSize, nbins)  # hog of opencv
 
 
-def obtain_images(directory, debug=False, prediction_mode=False):
+def obtain_images(directory, debug = False):
     list_target_names = []
     list_images = []
 
@@ -39,20 +41,17 @@ def obtain_images(directory, debug=False, prediction_mode=False):
         if debug:
             print("path = ", path, " number of images = ", len(files))
 
-        files_list = files
-
-        if len(files) != 0 and prediction_mode:
-            files_list = list(sorted(files_list, key=(lambda x: int(x[:-4]))))
-
-        for name in files_list:
+        for name in files:
             # image=cv2.imread(os.path.join(path, name))
 
             # image = cv2.imread(os.path.join(path, name), cv2.IMREAD_GRAYSCALE)
             # result=cv2.resize(image, (128, 64)) # multiply by 4
+
             # pre processing on the image (madbouly)
             image = Image.open(os.path.join(path, name)).convert('RGB')
             binary, result = image_pre_processing(image)
             result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
+            
             if debug:
                 print("image name = ", name)
                 cv2.imshow("Image", image)
@@ -86,7 +85,7 @@ def features_extraction(images):
         # max_size = min(maxSize,len(feature_vector)) 
         # features = np.zeros((maxSize,))
         # features[0:max_size] = feature_vector[0:max_size]
-        features= hog_features(image, orientations=9,pixels_per_cell=(8, 8), cells_per_block=(3, 3))
+        features= hog_features(image, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # print(type(shi))
         # shi=np.asarray(shi)
         # print(type(shi))
@@ -105,16 +104,26 @@ def features_extraction(images):
     # features = []
     # for z in list:
     #     features.append(z[:x])
-    features = np.asarray(list)
-    return features
+    list = np.asarray(list)
+    return list
 
 
 
-def tunning_data(directory):
+def tunning_classifier(directory):
 
     target_names, images = obtain_images(directory)
-    y,x = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
+    y, X = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
+
+    X = features_extraction(X)
+
+    return y, X
+
+
+def tunning_feature_extraction(directory):
+
+    target_names, images = obtain_images(directory)
+    y, X = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
 
     # x = features_extraction(x)
 
-    return y,x
+    return y, X
