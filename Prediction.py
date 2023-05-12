@@ -1,4 +1,4 @@
-from CommonFunctions import *
+from utils import *
 
 def predict(Xtest, model_path):
     pickled_model = pickle.load(open(model_path, 'rb'))
