@@ -52,7 +52,6 @@ def obtain_images(directory, debug=False, prediction_mode=False):
             image = Image.open(os.path.join(path, name)).convert('RGB')
             binary, result = image_pre_processing(image)
             result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
-
             if debug:
                 print("image name = ", name)
                 cv2.imshow("Image", image)
@@ -93,7 +92,7 @@ def features_extraction(images):
         # print (hog)
         # print(shi.shape)
         # print(hog.shape)
-        # features =lbp(image, radius=3, n_points=8)
+        
 
         # list.append(np.concatenate((hog, shi), axis = None))
         # list.append(shi)
