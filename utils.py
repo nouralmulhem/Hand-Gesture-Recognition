@@ -23,6 +23,7 @@ cellSize = (8, 8)
 nbins = 9
 
 
+
 hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
                         cellSize, nbins)  # hog of opencv
 
