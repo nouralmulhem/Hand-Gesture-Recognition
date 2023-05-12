@@ -1,3 +1,4 @@
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
 import matplotlib.pyplot as plt
 import numpy
 from sklearn import metrics
@@ -13,9 +14,23 @@ def calc_confucion_matrix(actual, predicted, no_classes):
     cm_display.plot()
     plt.show()
 
-def calc_accuracy(y_test, y_pred):
+def calc_accuracy(y_test, y_pred, model, Xtest):
     # Evaluate the performance of the SVM model
     accuracy = accuracy_score(y_test, y_pred)
-    print('Accuracy:', accuracy*100)
+    print('the accuracy = ', accuracy*100, '%')
 
+    # Calculate the precision
+    precision = precision_score(y_test, y_pred)
+    print('the precision = ', accuracy)
 
+    # Calculate the recall
+    recall = recall_score(y_test, y_pred)
+    print('the recall = ', accuracy)
+
+    # Calculate the F1 score
+    f1 = f1_score(y_test, y_pred)
+    print('the F1 score = ', f1)
+
+    # Calculate the AUC-ROC score
+    auc_roc = roc_auc_score(y_test, model.predict_proba(Xtest)[:, 1])
+    print('the F1 score = ', f1)

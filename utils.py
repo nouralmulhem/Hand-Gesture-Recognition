@@ -76,24 +76,24 @@ def fixed_feature_size(list, maxSize):
 
 def features_extraction(images):
     list = []
-    maxSize = 500
+    maxSize = 3000
     # list = np.array([hog.compute(image)  for image in images])
     all_size = 0
     for image in images:
         # kp, features_list = orb.detectAndCompute(image, None)
-        # kp, features_list = SIFT_features(image)
         # features_list =lbp(image, radius=3, n_points=8)
-        # features= hog_features(image, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
-        shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
+        features= hog_features(image, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
+        kp, features_list = SIFT_features(image)
 
         
         # feature_vector = features_list.flatten()
-        features = fixed_feature_size(shi, maxSize)
-        
+        # features = fixed_feature_size(shi, maxSize)
+        features_list = fixed_feature_size(features_list, maxSize)
 
-        # list.append(np.concatenate((hog, shi), axis = None))
+        list.append(np.concatenate((features, features_list), axis = None))
         # list.append(shi)
-        list.append(features)
+        # list.append(features)
         # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # list.append(features_list)
     # x = min(list, key=len)
