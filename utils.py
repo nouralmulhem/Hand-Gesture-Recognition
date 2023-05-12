@@ -25,12 +25,11 @@ cellSize = (8, 8)
 nbins = 9
 
 
-
 hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
                         cellSize, nbins)  # hog of opencv
 
 
-def obtain_images(directory, debug = False):
+def obtain_images(directory, debug=False):
     list_target_names = []
     list_images = []
 
@@ -51,7 +50,7 @@ def obtain_images(directory, debug = False):
             image = Image.open(os.path.join(path, name)).convert('RGB')
             binary, result = image_pre_processing(image)
             result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
-            
+
             if debug:
                 print("image name = ", name)
                 cv2.imshow("Image", image)
@@ -68,7 +67,7 @@ def obtain_images(directory, debug = False):
 
 def fixed_feature_size(list, maxSize):
     feature_vector = np.asarray(list).flatten()
-    max_size = min(maxSize,len(feature_vector)) 
+    max_size = min(maxSize, len(feature_vector))
     features = np.zeros((maxSize,))
     features[0:max_size] = feature_vector[0:max_size]
     return features
@@ -82,11 +81,11 @@ def features_extraction(images):
     for image in images:
         # kp, features_list = orb.detectAndCompute(image, None)
         # features_list =lbp(image, radius=3, n_points=8)
-        features = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        features = hog_features(image, orientations=9,
+                                pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
         # kp, features_list = SIFT_features(image)
 
-        
         # feature_vector = features_list.flatten()
         # features = fixed_feature_size(shi, maxSize)
         # features_list = fixed_feature_size(features_list, maxSize)
@@ -104,13 +103,16 @@ def features_extraction(images):
     list = np.asarray(list)
     return list
 
+
 def load_data(directory):
 
     target_names, images = obtain_images(directory)
-    target_names_shuffled, images_shuffled = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
-    Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
+    target_names_shuffled, images_shuffled = shuffle(
+        np.array(target_names), np.array(images))  # reorder el array bas
+    Xtrain, Xtest, ytrain, ytest = train_test_split(
+        images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
     # X_train, X_val, y_train, y_val = train_test_split(Xtrain, ytrain, test_size=0.5, random_state=0)
-    
+
     Xtrain = features_extraction(Xtrain)
     Xtest = features_extraction(Xtest)
 
@@ -128,10 +130,13 @@ def load_data(directory):
 def tunning_classifier(directory):
 
     target_names, images = obtain_images(directory)
-    target_names_shuffled, images_shuffled = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
+    target_names_shuffled, images_shuffled = shuffle(
+        np.array(target_names), np.array(images))  # reorder el array bas
 
-    Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled, target_names_shuffled, random_state=0, test_size=0.3)
-    X_test, X_val, y_test, y_val = train_test_split(Xtest, ytest, test_size=0.5, random_state=0)
+    Xtrain, Xtest, ytrain, ytest = train_test_split(
+        images_shuffled, target_names_shuffled, random_state=0, test_size=0.3)
+    X_test, X_val, y_test, y_val = train_test_split(
+        Xtest, ytest, test_size=0.5, random_state=0)
 
     print(len(X_val))
 
@@ -143,7 +148,8 @@ def tunning_classifier(directory):
 def tunning_feature_extraction(directory):
 
     target_names, images = obtain_images(directory)
-    y, X = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
+    y, X = shuffle(np.array(target_names), np.array(
+        images))  # reorder el array bas
 
     # x = features_extraction(x)
 
