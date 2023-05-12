@@ -7,6 +7,7 @@ from image_preprocessing import *
 from collections import defaultdict
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
 import re
 
 # import pandas as pd
@@ -23,8 +24,7 @@ cellSize = (8, 8)
 nbins = 9
 
 
-hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
-                        cellSize, nbins)  # hog of opencv
+  # hog of opencv
 
 
 def obtain_images(directory, debug=False, prediction_mode=False):
@@ -68,15 +68,41 @@ def obtain_images(directory, debug=False, prediction_mode=False):
 
 def features_extraction(images):
     list = []
-    maxSize = 3000
+    maxSize = 500
 
     # list = np.array([hog.compute(image)  for image in images])
     all_size = 0
     for image in images:
+        features_list =lbp(image, radius=3, n_points=8)
+        hog= hog_features(image, orientations=9,pixels_per_cell=(12, 12), cells_per_block=(2, 2))
+
+# Compute HOG features
+# hog_features = hog(gray, orientations=n_bins, pixels_per_cell=cell_size,
+                #    cells_per_block=block_size, block_norm='L2-Hys', feature_vector=True)
+
+
+# Concatenate HOG and LBP features
+        features = np.concatenate([hog, features_list])
+
+# Apply PCA to features
+        # pca = PCA(n_components=50)
+        # pca.fit(features.reshape(1, -1))
+
+# Transform features using PCA
+        # features_pca = pca.transform(features.reshape(1, -1))
+
+# Print explained variance ratio
+# print("Explained variance ratio:", pca.explained_variance_ratio_)
         # kp, features_list = orb.detectAndCompute(image, None)
         # kp, features_list = SIFT_features(image)
         # features_list =lbp(image, radius=3, n_points=8)
         # feature_vector = features_list.flatten()
+        # hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
+                        # cellSize, nbins)
+        # features = hog.compute(images)
+
+        # Reshape features into a 1D array
+        # features = features.reshape(-1)
         # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
         # feature_vector = np.asarray(shi).flatten()
         # print(len(feature_vector))
@@ -85,7 +111,8 @@ def features_extraction(images):
         # max_size = min(maxSize,len(feature_vector)) 
         # features = np.zeros((maxSize,))
         # features[0:max_size] = feature_vector[0:max_size]
-        features= hog_features(image, orientations=9,pixels_per_cell=(8, 8), cells_per_block=(3, 3))
+        # hog= hog_features(image, orientations=9,pixels_per_cell=(12, 12), cells_per_block=(2, 2))
+        # concatenateFeature = np.concatenate((np.asarray(features),np.asarray(hog)),axis=0)
         # print(type(shi))
         # shi=np.asarray(shi)
         # print(type(shi))
@@ -115,5 +142,6 @@ def tunning_data(directory):
     y,x = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
 
     # x = features_extraction(x)
+    # x=x.reshape(-1)
 
     return y,x

@@ -15,11 +15,11 @@ def lbp(img, radius=3, n_points=8):
     Returns:
         2D numpy array representing the LBP features
     """
-    lbp_img = local_binary_pattern(img, n_points, radius, 'uniform')
+    lbp_img = local_binary_pattern(img, n_points*radius, radius, 'uniform')
     hist, _ = np.histogram(lbp_img.ravel(), bins=np.arange(
         0, n_points + 3), range=(0, n_points + 2))
-    hist = hist.astype("float")
-    hist /= (hist.sum() + 1e-7)
+    # hist = hist.astype("float")
+    # hist /= (hist.sum() + 1e-7)
     return hist
 
 
