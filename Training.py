@@ -47,3 +47,7 @@ def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
 
 classifier(Xtrain, Xtest, ytrain, ytest, './models/svm.pkl')
 # classifier(Xtrain, Xtest, ytrain, ytest, './models/random_forest.pkl')
+
+
+
+

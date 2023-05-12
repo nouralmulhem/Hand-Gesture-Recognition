@@ -38,10 +38,10 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
     """
     # print('the size of the image is ', img.shape)
 
-    hog_feats, img = hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
-                         visualize=True, feature_vector=True)
+    hog_feats= hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
+                         visualize=False, feature_vector=True)
     # print('the length of the hog is ', len(hog_feats))
-    return hog_feats, img
+    return hog_feats
 
 
 def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
