@@ -1,1 +1,1 @@
-60
+svm_model
