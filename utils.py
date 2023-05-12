@@ -2,7 +2,7 @@
 import os
 import cv2
 import numpy as np
-# from image_preprocessing import *
+from image_preprocessing import *
 
 from collections import defaultdict
 from sklearn.utils import shuffle
@@ -47,10 +47,11 @@ def obtain_images(directory, debug=False, prediction_mode=False):
             # image=cv2.imread(os.path.join(path, name))
 
             # image = cv2.imread(os.path.join(path, name), cv2.IMREAD_GRAYSCALE)
-            # image=cv2.resize(image, (128, 64)) # multiply by 4
+            # result=cv2.resize(image, (128, 64)) # multiply by 4
             # pre processing on the image (madbouly)
-            # image = Image.open(os.path.join(path, name)).convert('RGB')
-            # binary, result = image_pre_processing(image)
+            image = Image.open(os.path.join(path, name)).convert('RGB')
+            binary, result = image_pre_processing(image)
+            result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
 
             if debug:
                 print("image name = ", name)
@@ -68,32 +69,40 @@ def obtain_images(directory, debug=False, prediction_mode=False):
 
 def features_extraction(images):
     list = []
+    maxSize = 1000
 
     # list = np.array([hog.compute(image)  for image in images])
     all_size = 0
     for image in images:
         # kp, features_list = orb.detectAndCompute(image, None)
-
-        # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
-        hog, _ = hog_features(image, orientations=9,
-                              pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        # kp, features_list = SIFT_features(image)
+        # feature_vector = features_list.flatten()
+        shi = shiThomasFeatureExtraction(image, 100, 0.3, 10)
+        feature_vector = np.asarray(shi).flatten()
+        # print(len(feature_vector))
+        # size = len(feature_vector)
+        # print(size)
+        max_size = min(maxSize,len(feature_vector))
+        features = np.zeros((maxSize,))
+        features[0:max_size] = feature_vector[0:max_size]
+        # features, _ = hog_features(image, orientations=9,pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # print(type(shi))
         # shi=np.asarray(shi)
         # print(type(shi))
         # print (hog)
         # print(shi.shape)
         # print(hog.shape)
-        # lbp_feature =lbp(image, radius=3, n_points=8)
+        # features =lbp(image, radius=3, n_points=8)
 
         # list.append(np.concatenate((hog, shi), axis = None))
         # list.append(shi)
-        list.append(hog)
+        list.append(features)
         # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # list.append(features_list)
-    x = min(list, key=len)
-    x = len(x)
-    features = []
-    for z in list:
-        features.append(z[:x])
-    features = np.asarray(features)
+    # x = min(list, key=len)
+    # x = len(x)
+    # features = []
+    # for z in list:
+    #     features.append(z[:x])
+    features = np.asarray(list)
     return features

@@ -33,7 +33,7 @@ Xtrain, Xtest, ytrain, ytest = load_data(directory='./Dataset/')
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     model, y_pred = svm_model(Xtrain, Xtest, ytrain)
     calc_accuracy(ytest, y_pred)
-    calc_confucion_matrix(ytest, y_pred, no_classes=2)
+    calc_confucion_matrix(ytest, y_pred, no_classes=6)
 
     # model = XGBClassifier(random_state=0)
 

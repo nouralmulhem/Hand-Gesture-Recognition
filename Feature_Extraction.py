@@ -47,18 +47,20 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
 def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
     # Quality level => between 0-1 which denotes the minimum quality of corner below which everyone is rejected
     # distance => minimum euclidean distance between corners detected.
+    # grayImage = grayImage.astype('float32')
+    # grayImage = cv2.cvtColor(grayImage, cv2.COLOR_BGR2GRAY)
 
     # With all this information, the function finds corners in the image. All
     # corners below quality level are rejected. Then it sorts the remaining
     # corners based on quality in the descending order. Then function takes
     # first strongest corner, throws away all the nearby corners in the range
     # of minimum distance and returns N strongest corners.
-    corners = cv2.goodFeaturesToTrack(gray, max_corners, quality_level, min_distance, blockSize=block_size)
+    corners = cv2.goodFeaturesToTrack(grayImage, noOfCorners, qualityLevel, distance)
     # corners = np.int0(corners)
     sift =  cv2.SIFT_create()
 
     keypoints = [cv2.KeyPoint(x=corner[0][0], y=corner[0][1], size=20) for corner in corners]
-    _, descriptors = sift.compute(gray, keypoints)
+    _, descriptors = sift.compute(grayImage, keypoints)
     # print("coreners before",corners)
     # corners = corners.reshape(corners.shape[0], 2)
     # print("coreners after",corners)
@@ -106,4 +108,4 @@ def SIFT_features(img):
     sift = cv2.SIFT_create()
     keypoints_sift, descriptors = sift.detectAndCompute(img, None)
 
-    return keypoints_orb, descriptors
+    return keypoints_sift, descriptors

@@ -1,7 +1,7 @@
 import pandas as pd
 from skimage.color import rgb2gray
 from skimage.measure import find_contours
-from skimage.feature import greycomatrix, greycoprops
+# from skimage.feature import greycomatrix, greycoprops
 import matplotlib.pyplot as plt
 import os
 import numpy as np
@@ -116,7 +116,7 @@ def get_binary_heigh_constract(img_RGB):
     img_YUV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2YUV)
 
     # Make float and divide by 255 to give BGRdash
-    bgrdash = img_BGR.astype(np.float)/255.
+    bgrdash = img_BGR.astype(np.cfloat)/255.
 
     hls_img = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HLS)
     lab_img = cv.cvtColor(img_RGB, cv.COLOR_RGB2LAB)
