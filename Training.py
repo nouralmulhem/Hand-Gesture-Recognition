@@ -1,5 +1,6 @@
 from SVM import *
 from utils import *
+from Performance import *
 
 
 def load_data(directory):
@@ -9,15 +10,11 @@ def load_data(directory):
         np.array(target_names), np.array(images))  # reorder el array bas
 
     n_samples = images_shuffled.shape[0]
-    print("images_shuffled before : ", len(images_shuffled))
-    print(type(images_shuffled))
-    print(images_shuffled.shape)
-
     images_shuffled2 = features_extraction(images_shuffled)
 
-    print("images_shuffled after : ", len(images_shuffled))
-    print(type(images_shuffled))
-    print(images_shuffled.shape)
+    # print("images_shuffled after : ",len(images_shuffled))
+    # print(type(images_shuffled))
+    # print(images_shuffled.shape)
     images_shuffled2 = images_shuffled2.reshape(n_samples, -1)
 
     Xtrain, Xtest, ytrain, ytest = train_test_split(
@@ -33,15 +30,11 @@ Xtrain, Xtest, ytrain, ytest = load_data(directory='./Dataset/')
 # print(len(Xtest), len(ytest))
 
 
-def calc_accuracy(y_test, y_pred):
-    # Evaluate the performance of the SVM model
-    accuracy = accuracy_score(y_test, y_pred)
-    print('Accuracy:', accuracy*100)
-
-
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     model, y_pred = svm_model(Xtrain, Xtest, ytrain)
     calc_accuracy(ytest, y_pred)
+    calc_confucion_matrix(ytest, y_pred, no_classes=2)
+
     # model = XGBClassifier(random_state=0)
 
     # Xtrain = np.array(Xtrain)

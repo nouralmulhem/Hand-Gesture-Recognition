@@ -2,7 +2,7 @@
 import os
 import cv2
 import numpy as np
-from image_preprocessing import *
+# from image_preprocessing import *
 
 from collections import defaultdict
 from sklearn.utils import shuffle
@@ -13,8 +13,7 @@ import re
 import pickle
 # from xgboost import XGBClassifier
 
-from Hog_LBP import *
-# from Shi_Thomas import *
+from Feature_Extraction import *
 ##########################################################
 
 winSize = (16, 16)
@@ -26,7 +25,6 @@ nbins = 9
 
 hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
                         cellSize, nbins)  # hog of opencv
-orb = cv2.ORB_create(nfeatures=10)
 
 
 def obtain_images(directory, debug=False, prediction_mode=False):
@@ -51,14 +49,15 @@ def obtain_images(directory, debug=False, prediction_mode=False):
             # image = cv2.imread(os.path.join(path, name), cv2.IMREAD_GRAYSCALE)
             # image=cv2.resize(image, (128, 64)) # multiply by 4
             # pre processing on the image (madbouly)
-            image = Image.open(os.path.join(path, name)).convert('RGB')
-            binary, result = image_pre_processing(image)
+            # image = Image.open(os.path.join(path, name)).convert('RGB')
+            # binary, result = image_pre_processing(image)
 
             if debug:
                 print("image name = ", name)
                 cv2.imshow("Image", image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+
             list_target_names.append(os.path.basename(path))
             list_images.append(result)
 
@@ -85,9 +84,10 @@ def features_extraction(images):
         # print(shi.shape)
         # print(hog.shape)
         # lbp_feature =lbp(image, radius=3, n_points=8)
+
+        # list.append(np.concatenate((hog, shi), axis = None))
         # list.append(shi)
         list.append(hog)
-        # list.append(lbp_feature)
         # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # list.append(features_list)
     x = min(list, key=len)
@@ -96,5 +96,4 @@ def features_extraction(images):
     for z in list:
         features.append(z[:x])
     features = np.asarray(features)
-
     return features

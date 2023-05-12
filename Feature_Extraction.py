@@ -53,12 +53,14 @@ def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
     # corners based on quality in the descending order. Then function takes
     # first strongest corner, throws away all the nearby corners in the range
     # of minimum distance and returns N strongest corners.
-    corners = cv2.goodFeaturesToTrack(
-        grayImage, noOfCorners, qualityLevel, distance)
+    corners = cv2.goodFeaturesToTrack(gray, max_corners, quality_level, min_distance, blockSize=block_size)
     # corners = np.int0(corners)
+    sift =  cv2.SIFT_create()
 
+    keypoints = [cv2.KeyPoint(x=corner[0][0], y=corner[0][1], size=20) for corner in corners]
+    _, descriptors = sift.compute(gray, keypoints)
     # print("coreners before",corners)
-    corners = corners.reshape(corners.shape[0], 2)
+    # corners = corners.reshape(corners.shape[0], 2)
     # print("coreners after",corners)
 
     # corner_values=[]
@@ -70,8 +72,8 @@ def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
     #  cv.circle(img, (x, y), 3, [255, 255, 0], -1)
     #  cv.imshow('Shi-Tomasi Corner Detector', img)
     # corner_values=np.array(corner_values, dtype=np.float32)
-    return corners
-
+    return descriptors
+  
 # path = "./Dataset/men/3/3_men (10).JPG"
 # img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 # img = cv2.resize(img, (128, 64))
@@ -85,3 +87,23 @@ def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
 # cv2.imshow("HOG", Hog_img)
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
+
+def ORB_features(img):
+    
+    orb = cv2.ORB_create(nfeatures=10)
+    keypoints_orb, descriptors = orb.detectAndCompute(img, None)
+
+    return keypoints_orb, descriptors
+
+# img = cv2.drawKeypoints(img, keypoints_orb, None)
+# cv2.imshow("Image", img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
+
+
+def SIFT_features(img):
+    
+    sift = cv2.SIFT_create()
+    keypoints_sift, descriptors = sift.detectAndCompute(img, None)
+
+    return keypoints_orb, descriptors
