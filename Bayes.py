@@ -7,6 +7,7 @@ import math
 import pandas as pd
 from Training import *
 
+print("hello bayes before load")
 Xtrain, Xtest, ytrain, ytest = load_data("./Dataset/")
 
 
@@ -15,6 +16,7 @@ M = len(Xtrain)
 N = len(Xtrain[0]) - 1
 K = len(Xtest)
 
+print("hello bayes")
 
 pClasses = [] # A list of size (numClasses, 1) containing the a priori probabilities of each class in the training set.
 

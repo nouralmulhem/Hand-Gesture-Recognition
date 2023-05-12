@@ -66,32 +66,29 @@ def obtain_images(directory, debug = False):
 # target_names, images = obtain_images("./data/", True)
 
 
+def fixed_feature_size(list, maxSize):
+    feature_vector = np.asarray(list).flatten()
+    max_size = min(maxSize,len(feature_vector)) 
+    features = np.zeros((maxSize,))
+    features[0:max_size] = feature_vector[0:max_size]
+    return features
+
+
 def features_extraction(images):
     list = []
-    maxSize = 3000
-
+    maxSize = 500
     # list = np.array([hog.compute(image)  for image in images])
     all_size = 0
     for image in images:
         # kp, features_list = orb.detectAndCompute(image, None)
         # kp, features_list = SIFT_features(image)
         # features_list =lbp(image, radius=3, n_points=8)
+        # features= hog_features(image, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
+        shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
+
+        
         # feature_vector = features_list.flatten()
-        # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
-        # feature_vector = np.asarray(shi).flatten()
-        # print(len(feature_vector))
-        # size = len(feature_vector)
-        # print(size)
-        # max_size = min(maxSize,len(feature_vector)) 
-        # features = np.zeros((maxSize,))
-        # features[0:max_size] = feature_vector[0:max_size]
-        features= hog_features(image, orientations=8, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
-        # print(type(shi))
-        # shi=np.asarray(shi)
-        # print(type(shi))
-        # print (hog)
-        # print(shi.shape)
-        # print(hog.shape)
+        features = fixed_feature_size(shi, maxSize)
         
 
         # list.append(np.concatenate((hog, shi), axis = None))
