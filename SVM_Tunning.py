@@ -4,15 +4,16 @@ from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
 from utils import *
 # Load the iris dataset and scale the features
+print("hello")
 y, X = tunning_classifier(directory='./Dataset/')
+print("hello2")
 
 # Define the parameter grid
 param_grid = {'C': [0.1, 1, 10],
-              'kernel': ['linear', 'rbf', 'poly', 'sigmoid'],
+              'kernel': ['rbf', 'poly'],
               'degree': [2, 3, 4],
               'gamma': ['scale', 'auto', 0.1, 1, 10],
-              'coef0': [-1, 0, 1],
-              'class_weight': [None, 'balanced']}
+              'coef0': [-1, 0, 1]}
 
 # Create an SVM model
 svm = SVC()
