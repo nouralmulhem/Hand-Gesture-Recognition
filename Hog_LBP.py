@@ -3,7 +3,6 @@ import cv2
 from skimage.feature import hog, local_binary_pattern
 
 
-
 def lbp(img, radius=3, n_points=8):
     """
     Compute Local Binary Pattern (LBP) features for an image.
@@ -17,10 +16,12 @@ def lbp(img, radius=3, n_points=8):
         2D numpy array representing the LBP features
     """
     lbp_img = local_binary_pattern(img, n_points, radius, 'uniform')
-    hist, _ = np.histogram(lbp_img.ravel(), bins=np.arange(0, n_points + 3), range=(0, n_points + 2))
+    hist, _ = np.histogram(lbp_img.ravel(), bins=np.arange(
+        0, n_points + 3), range=(0, n_points + 2))
     hist = hist.astype("float")
     hist /= (hist.sum() + 1e-7)
     return hist
+
 
 def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3)):
     """
@@ -35,21 +36,27 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
     Returns:
         1D numpy array representing the HOG features
     """
-    hog_feats,img = hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
-                    visualize=True, feature_vector=True)
-    return hog_feats,img
-def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
+    # print('the size of the image is ', img.shape)
+
+    hog_feats, img = hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
+                         visualize=True, feature_vector=True)
+    # print('the length of the hog is ', len(hog_feats))
+    return hog_feats, img
+
+
+def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
     # Quality level => between 0-1 which denotes the minimum quality of corner below which everyone is rejected
     # distance => minimum euclidean distance between corners detected.
 
     # With all this information, the function finds corners in the image. All
-    # corners below quality level are rejected. Then it sorts the remaining 
+    # corners below quality level are rejected. Then it sorts the remaining
     # corners based on quality in the descending order. Then function takes
     # first strongest corner, throws away all the nearby corners in the range
     # of minimum distance and returns N strongest corners.
-    corners = cv2.goodFeaturesToTrack(grayImage, noOfCorners, qualityLevel, distance)
+    corners = cv2.goodFeaturesToTrack(
+        grayImage, noOfCorners, qualityLevel, distance)
     # corners = np.int0(corners)
-    
+
     # print("coreners before",corners)
     corners = corners.reshape(corners.shape[0], 2)
     # print("coreners after",corners)
@@ -64,7 +71,7 @@ def shiThomasFeatureExtraction(grayImage,noOfCorners,qualityLevel,distance):
     #  cv.imshow('Shi-Tomasi Corner Detector', img)
     # corner_values=np.array(corner_values, dtype=np.float32)
     return corners
-  
+
 # path = "./Dataset/men/3/3_men (10).JPG"
 # img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 # img = cv2.resize(img, (128, 64))
