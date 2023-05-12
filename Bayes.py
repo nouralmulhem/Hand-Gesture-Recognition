@@ -1,11 +1,17 @@
 #### always keep all your imports in the first cell ####
 import numpy as np
-import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import csv
 import math
-import pandas as pd
-from Training import *
+from Training import load_data
+
+def multivariate_normal_gaussian(X, mu, sigma):
+    det = np.linalg.det(sigma)
+    norm_const = 1 / (((2*np.pi) ** (mu.shape[0]/2)) * (det ** 0.5) )
+    x_mu = X - mu
+    inv = np.linalg.inv(sigma)
+    result = np.exp(-0.5 * (x_mu.T @ inv @ x_mu))
+    prob = norm_const * result
+    return prob
 
 print("hello bayes before load")
 Xtrain, Xtest, ytrain, ytest = load_data("./Dataset/")
@@ -42,17 +48,10 @@ for classIndex in range(numClasses):
 estimate_means = np.array(estimate_means)
 estimate_covariances = np.array(estimate_covariances)
 
-def multivariate_normal_gaussian(X, mu, sigma):
-    det = np.linalg.det(sigma)
-    norm_const = 1 / (((2*math.pi) ** (mu.shape[0]/2)) * (det ** 0.5) )
-    x_mu = X - mu
-    inv = np.linalg.inv(sigma)
-    result = math.exp(-0.5 * (x_mu.T @ inv @ x_mu))
-    prob = norm_const * result
-    return prob
 
 
-predicted_classes = [] # predicted_classes: A numpy array of size (K, 1) where K is the number of points in the test set. Every element in this array
+
+predicted_classes = np.zeros((K,1)) # predicted_classes: A numpy array of size (K, 1) where K is the number of points in the test set. Every element in this array
                        # contains the predicted class of Bayes classifier for this test point.
 
 for i in range(Xtest.shape[0]):
@@ -64,8 +63,7 @@ for i in range(Xtest.shape[0]):
         classProbabilities[j] = ( multivariate_normal_gaussian(Xtest[i], estimate_means[j], estimate_covariances[j]))
         
     # TODO [7.B]: Find the prediction of the test point X_Test[i] and append it to the predicted_classes array.
-    predicted_classes.append(np.where(classProbabilities == max(classProbabilities[0], max(classProbabilities[1],classProbabilities[2])) )[0][0]+1) 
-    
+    predicted_classes[i]=np.argmax(classProbabilities)+1
     
 
 
