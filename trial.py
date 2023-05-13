@@ -2,12 +2,14 @@ import os
 
 # Path to the folder containing images
 
-folder_path = 'D:/TempDesktop/second_term/NN/project/Hand-Gesture-Recognition'
+folder_path = os.getcwd()
+
+# folder_path = 'D:/TempDesktop/second_term/NN/project/Hand-Gesture-Recognition'
 # Path to the text file containing image filenames
 txt_file_path = './try.txt'
 
 # Read the image filenames from the text file
-with open(txt_file_path, 'r') as f:
+with open(os.path.join(folder_path, txt_file_path), 'r') as f:
     image_filenames = f.read().splitlines()
 
 # Iterate over the image filenames
