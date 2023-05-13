@@ -4,7 +4,9 @@ from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
 from utils import *
 # Load the iris dataset and scale the features
-y,X = tunning_data(directory='./Dataset/')
+print("hello")
+y, X = tunning_classifier(directory='./Dataset/')
+print("hello2")
 
 # Define the parameter grid
 param_grid = {'C': [0.1, 1, 10],

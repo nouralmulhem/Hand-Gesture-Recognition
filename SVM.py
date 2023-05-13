@@ -14,7 +14,8 @@ from sklearn.metrics import accuracy_score
 def svm_model(X_train, X_test, y_train):
 
     # Create an SVM model
-    svm = SVC(kernel='rbf', C=1, random_state=0)
+    # svm = SVC(kernel='rbf', C=1, random_state=0)
+    svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=1, degree=4, gamma=0.1)
 
     # Train the SVM model on the training set
     svm.fit(X_train, y_train)
