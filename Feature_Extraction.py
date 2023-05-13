@@ -40,6 +40,7 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
 
     hog_feats= hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
                          visualize=False, feature_vector=True)
+    # channel_axis=3
     # print('the length of the hog is ', len(hog_feats))
     return hog_feats
 

@@ -33,4 +33,4 @@ def calc_accuracy(y_test, y_pred, model, Xtest):
 
     # Calculate the AUC-ROC score
     auc_roc = roc_auc_score(y_test, model.predict_proba(Xtest)[:, 1])
-    print('the F1 score = ', f1)
+    print('the AUC-ROC score = ', f1)

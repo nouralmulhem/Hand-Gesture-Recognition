@@ -2,7 +2,7 @@
 import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import math
-from Training import load_data
+from utils import load_data
 
 def multivariate_normal_gaussian(X, mu, sigma):
     z,_=sigma.shape
