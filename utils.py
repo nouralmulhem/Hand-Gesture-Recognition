@@ -107,10 +107,8 @@ def features_extraction(images):
 def load_data(directory):
 
     target_names, images = obtain_images(directory)
-    target_names_shuffled, images_shuffled = shuffle(
-        np.array(target_names), np.array(images))  # reorder el array bas
-    Xtrain, Xtest, ytrain, ytest = train_test_split(
-        images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
+    target_names_shuffled, images_shuffled = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
+    Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
     # X_train, X_val, y_train, y_val = train_test_split(Xtrain, ytrain, test_size=0.5, random_state=0)
 
     Xtrain = features_extraction(Xtrain)
