@@ -204,7 +204,7 @@ def image_pre_processing(path):
     kernel = np.ones((5, 5), np.float32)/25
     result = cv.filter2D(result, -1, kernel)
     result = cv2.resize(result, (128, 64))
-
+    result = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     return mask, result
 
 
