@@ -127,8 +127,8 @@ def get_binary_heigh_constract(img_RGB):
     # img_YCC[:, :, 1] = cv2.equalizeHist(img_YCC[:, :, 1])
     # img_YCC[:, :, 2] = cv2.equalizeHist(img_YCC[:, :, 2])
 
-    img_YUV[:, :, 0] = cv2.equalizeHist(img_YUV[:, :, 0])
-    img_YUV[:, :, 1] = cv2.equalizeHist(img_YUV[:, :, 1])
+#     img_YUV[:, :, 0] = cv2.equalizeHist(img_YUV[:, :, 0])
+#     img_YUV[:, :, 1] = cv2.equalizeHist(img_YUV[:, :, 1])
     img_YUV[:, :, 2] = cv2.equalizeHist(img_YUV[:, :, 2])
 
     # hls_img[:, :, 0] = cv2.equalizeHist(hls_img[:, :, 0])
@@ -142,8 +142,8 @@ def get_binary_heigh_constract(img_RGB):
     ret, img_binary1 = cv2.threshold(
         img_YUV[:, :, 2], 150, 255, cv2.THRESH_BINARY)
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
-    dilate_img = cv2.dilate(img_binary1, kernel, iterations=1)
-    erode_img = cv2.erode(dilate_img, kernel, iterations=1)
+    dilate_img = cv2.erode(img_binary1, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
     return erode_img
 
 

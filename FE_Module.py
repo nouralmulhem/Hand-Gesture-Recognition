@@ -1,15 +1,10 @@
 from utils import *
 from FE_Techniques import *
-
 from collections import defaultdict
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import re
-
-# import pandas as pd
 import pickle
-# from xgboost import XGBClassifier
-
 import csv
 import threading
 from PIL import Image
@@ -57,7 +52,7 @@ def obtain_images(directory, debug=False):
             list_target_names.append(os.path.basename(path))
             name_files.append(name)
             thread.start()
-
+            index += 1
             # image = Image.open(os.path.join(path, name)).convert('RGB')
             # binary, result = image_pre_processing(image)
             # result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
