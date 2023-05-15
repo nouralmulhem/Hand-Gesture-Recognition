@@ -106,4 +106,4 @@ def SIFT_features(img):
     sift = cv2.SIFT_create()
     keypoints_sift, descriptors = sift.detectAndCompute(img, None)
 
-    return keypoints_orb, descriptors
+    return keypoints_sift, descriptors

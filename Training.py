@@ -6,8 +6,7 @@ from Performance import *
 def load_data(directory):
 
     target_names, images = obtain_images(directory)
-    target_names_shuffled, images_shuffled = shuffle(
-        np.array(target_names), np.array(images))  # reorder el array bas
+    target_names_shuffled, images_shuffled = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
 
     n_samples = images_shuffled.shape[0]
     images_shuffled2 = features_extraction(images_shuffled)
