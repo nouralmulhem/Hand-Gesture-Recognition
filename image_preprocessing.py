@@ -21,8 +21,6 @@ import PIL
 import os
 import glob
 
-# %matplotlib inline
-
 
 def resize(image, width=200, hsize=None):
     base_width = width
@@ -88,8 +86,8 @@ def reduce_image(img, thickness):
 
 def get_binary_low_medium_constract(img_RGB):
     gray = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2GRAY)
-    ret, img_binary_gray = cv2.threshold(
-        gray, 125, 255, cv2.THRESH_BINARY)
+    # ret, img_binary_gray = cv2.threshold(
+    #     gray, 125, 255, cv2.THRESH_BINARY)
     # show_images([gray, img_binary_gray])
     img_HSV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HSV)
     ret, img_binary = cv2.threshold(
@@ -107,39 +105,39 @@ def get_binary_low_medium_constract(img_RGB):
 
 
 def get_binary_heigh_constract(img_RGB):
-    img_RGBA = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2RGBA)
-    img_gray = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2GRAY)
-    ret, img_binary = cv2.threshold(img_gray, 60, 255, cv2.THRESH_BINARY_INV)
-    img_HSV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HSV)
-    img_YCC = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2YCR_CB)
-    img_BGR = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2BGR)
+    # img_RGBA = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2RGBA)
+    # img_gray = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2GRAY)
+    # ret, img_binary = cv2.threshold(img_gray, 60, 255, cv2.THRESH_BINARY_INV)
+    # img_HSV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HSV)
+    # img_YCC = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2YCR_CB)
+    # img_BGR = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2BGR)
     img_YUV = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2YUV)
 
     # Make float and divide by 255 to give BGRdash
-    bgrdash = img_BGR.astype(np.cfloat)/255.
+    # bgrdash = img_BGR.astype(np.float)/255.
 
-    hls_img = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HLS)
-    lab_img = cv.cvtColor(img_RGB, cv.COLOR_RGB2LAB)
+    # hls_img = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2HLS)
+    # lab_img = cv.cvtColor(img_RGB, cv.COLOR_RGB2LAB)
 
-    img_HSV[:, :, 0] = cv2.equalizeHist(img_HSV[:, :, 0])
-    img_HSV[:, :, 1] = cv2.equalizeHist(img_HSV[:, :, 1])
-    img_HSV[:, :, 2] = cv2.equalizeHist(img_HSV[:, :, 2])
+    # img_HSV[:, :, 0] = cv2.equalizeHist(img_HSV[:, :, 0])
+    # img_HSV[:, :, 1] = cv2.equalizeHist(img_HSV[:, :, 1])
+    # img_HSV[:, :, 2] = cv2.equalizeHist(img_HSV[:, :, 2])
 
-    img_YCC[:, :, 0] = cv2.equalizeHist(img_YCC[:, :, 0])
-    img_YCC[:, :, 1] = cv2.equalizeHist(img_YCC[:, :, 1])
-    img_YCC[:, :, 2] = cv2.equalizeHist(img_YCC[:, :, 2])
+    # img_YCC[:, :, 0] = cv2.equalizeHist(img_YCC[:, :, 0])
+    # img_YCC[:, :, 1] = cv2.equalizeHist(img_YCC[:, :, 1])
+    # img_YCC[:, :, 2] = cv2.equalizeHist(img_YCC[:, :, 2])
 
     img_YUV[:, :, 0] = cv2.equalizeHist(img_YUV[:, :, 0])
     img_YUV[:, :, 1] = cv2.equalizeHist(img_YUV[:, :, 1])
     img_YUV[:, :, 2] = cv2.equalizeHist(img_YUV[:, :, 2])
 
-    hls_img[:, :, 0] = cv2.equalizeHist(hls_img[:, :, 0])
-    hls_img[:, :, 1] = cv2.equalizeHist(hls_img[:, :, 1])
-    hls_img[:, :, 2] = cv2.equalizeHist(hls_img[:, :, 2])
+    # hls_img[:, :, 0] = cv2.equalizeHist(hls_img[:, :, 0])
+    # hls_img[:, :, 1] = cv2.equalizeHist(hls_img[:, :, 1])
+    # hls_img[:, :, 2] = cv2.equalizeHist(hls_img[:, :, 2])
 
-    lab_img[:, :, 0] = cv2.equalizeHist(lab_img[:, :, 0])
-    lab_img[:, :, 1] = cv2.equalizeHist(lab_img[:, :, 1])
-    lab_img[:, :, 2] = cv2.equalizeHist(lab_img[:, :, 2])
+    # lab_img[:, :, 0] = cv2.equalizeHist(lab_img[:, :, 0])
+    # lab_img[:, :, 1] = cv2.equalizeHist(lab_img[:, :, 1])
+    # lab_img[:, :, 2] = cv2.equalizeHist(lab_img[:, :, 2])
 
     ret, img_binary1 = cv2.threshold(
         img_YUV[:, :, 2], 150, 255, cv2.THRESH_BINARY)
@@ -159,7 +157,8 @@ def calculate_brightness(image, index=None):
     return mean_value
 
 
-def image_pre_processing(image):
+def image_pre_processing(path):
+    image = Image.open(path)
     mean_value = calculate_brightness(image)
     image = resize(image, 4 * 128, 4 * 64)
     img_RGB = np.array(image)
@@ -195,16 +194,9 @@ def image_pre_processing(image):
     for cnt in contours:
         #     mask=cv2.drawContours(mask, [cnt], -1, (255,255,255), -1)
         area = cv2.contourArea(cnt)
-    #     print(area)
         if area > max_area:
-            second_max = max_area
-            second_biggest = biggest_contour
             max_area = area
             biggest_contour = cnt
-        elif area > second_max:
-            second_max = area
-            second_biggest = cnt
-    # print(len(cnt))
     if len(contours) > 0:
         mask = cv2.drawContours(
             mask, [biggest_contour], -1, (255, 255, 255), -1)
@@ -212,10 +204,15 @@ def image_pre_processing(image):
     kernel = np.ones((5, 5), np.float32)/25
     result = cv.filter2D(result, -1, kernel)
     result = cv2.resize(result, (128, 64))
-    # print('the size of the image is ', result.shape)
 
     return mask, result
 
+
+def process_image_thread(path, index, results, binaries):
+    binary, result = image_pre_processing(path)
+    results[index] = result
+    binaries[index] = binary
+    return
 
 # image = Image.open("./Dataset/men/1/1_men (13).JPG").convert('RGB')
 # img = np.array(image)

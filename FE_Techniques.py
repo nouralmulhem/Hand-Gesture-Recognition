@@ -38,8 +38,8 @@ def hog_features(img, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3
     """
     # print('the size of the image is ', img.shape)
 
-    hog_feats= hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
-                         visualize=False, feature_vector=True)
+    hog_feats = hog(img, orientations=orientations, pixels_per_cell=pixels_per_cell, cells_per_block=cells_per_block,
+                    visualize=False, feature_vector=True)
     # channel_axis=3
     # print('the length of the hog is ', len(hog_feats))
     return hog_feats
@@ -56,11 +56,13 @@ def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
     # corners based on quality in the descending order. Then function takes
     # first strongest corner, throws away all the nearby corners in the range
     # of minimum distance and returns N strongest corners.
-    corners = cv2.goodFeaturesToTrack(grayImage, noOfCorners, qualityLevel, distance)
+    corners = cv2.goodFeaturesToTrack(
+        grayImage, noOfCorners, qualityLevel, distance)
     # corners = np.int0(corners)
-    sift =  cv2.SIFT_create()
+    sift = cv2.SIFT_create()
 
-    keypoints = [cv2.KeyPoint(x=corner[0][0], y=corner[0][1], size=20) for corner in corners]
+    keypoints = [cv2.KeyPoint(x=corner[0][0], y=corner[0][1], size=20)
+                 for corner in corners]
     _, descriptors = sift.compute(grayImage, keypoints)
     # print("coreners before",corners)
     # corners = corners.reshape(corners.shape[0], 2)
@@ -76,7 +78,7 @@ def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
     #  cv.imshow('Shi-Tomasi Corner Detector', img)
     # corner_values=np.array(corner_values, dtype=np.float32)
     return descriptors
-  
+
 # path = "./Dataset/men/3/3_men (10).JPG"
 # img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 # img = cv2.resize(img, (128, 64))
@@ -91,8 +93,9 @@ def shiThomasFeatureExtraction(grayImage, noOfCorners, qualityLevel, distance):
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
+
 def ORB_features(img):
-    
+
     orb = cv2.ORB_create(nfeatures=10)
     keypoints_orb, descriptors = orb.detectAndCompute(img, None)
 
@@ -105,22 +108,24 @@ def ORB_features(img):
 
 
 def SIFT_features(img):
-    
+
     sift = cv2.SIFT_create()
     keypoints_sift, descriptors = sift.detectAndCompute(img, None)
 
     return keypoints_sift, descriptors
 
+
 def convex_hall(img):
-    contours, _ = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours, _ = cv2.findContours(
+        img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Find the convex hull of each contour and draw it on the image
-    convex=[]
+    convex = []
     for contour in contours:
         hull = cv2.convexHull(contour)
-        hull=hull.reshape(-1)
+        hull = hull.reshape(-1)
         convex.append(hull)
     convex = np.array(convex)
     convex = convex.reshape(-1)
-    print("done ",convex)
+    print("done ", convex)
     return convex
