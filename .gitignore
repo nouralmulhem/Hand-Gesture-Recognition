@@ -10,3 +10,6 @@ men/
 Women/
 
 models/
+
+__pycache__\
+.idea/
