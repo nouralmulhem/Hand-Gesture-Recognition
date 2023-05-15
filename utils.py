@@ -212,15 +212,19 @@ def load_data(directory):
     
     for image in images:
 
-        # Convert image to base64 encoding
-        image_bytes = image.tobytes()
-        base64_encoded_image = base64.b64encode(image_bytes).decode('utf-8')
+        # Convert image to bytes
+        image_bytes = ios.BytesIO()
+        cv2.imwrite(image_bytes, image)
+        image_bytes.seek(0)
+
+        # Convert image bytes to base64 encoding
+        base64_encoded_image = base64.b64encode(image_bytes.read()).decode('utf-8')
 
         # Create a DataFrame with the image data
         data = pd.DataFrame({'Image': [base64_encoded_image]})
 
         # Save DataFrame to a CSV file
-        csv_file = './file.csv'
+        csv_file = 'path/to/file.csv'
         data.to_csv(csv_file, index=False)
 
         # Load DataFrame from CSV file
@@ -228,7 +232,7 @@ def load_data(directory):
 
         # Retrieve the image from the loaded DataFrame
         base64_encoded_image = loaded_data['Image'][0]
-        image_bytes = base64.b64decode(base64_encoded_image.encode('utf-8'))
+        image_bytes = base64.b64decode(base64_encoded_image)
 
         # Convert the image bytes to PIL Image object
         loaded_image = Image.open(ios.BytesIO(image_bytes))

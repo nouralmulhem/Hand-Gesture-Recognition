@@ -7,7 +7,7 @@ import os
 import numpy as np
 import cv2 as cv2
 import cv2 as cv
-import skimage.io as io
+# import skimage.io as io
 from skimage.morphology import binary_erosion, binary_dilation, binary_closing, skeletonize, thin
 from skimage.filters import gaussian
 # import xlwt
