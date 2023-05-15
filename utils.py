@@ -8,6 +8,7 @@ from collections import defaultdict
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import re
+import io as ios
 
 # import pandas as pd
 import pickle
@@ -16,6 +17,20 @@ import pickle
 from Feature_Extraction import *
 
 import time
+
+import csv
+
+# from openpyxl import Workbook
+# from openpyxl.drawing.image import Image as Image_EX
+
+from numpy import asarray
+from numpy import savetxt
+
+from numpy import loadtxt
+
+import pandas as pd
+from PIL import Image
+import base64
 ##########################################################
 
 winSize = (16, 16)
@@ -107,15 +122,129 @@ def features_extraction(images):
 def load_data(directory):
 
     target_names, images = obtain_images(directory)
-    target_names_shuffled, images_shuffled = shuffle(
-        np.array(target_names), np.array(images))  # reorder el array bas
-    Xtrain, Xtest, ytrain, ytest = train_test_split(
-        images_shuffled, target_names_shuffled, random_state=42, test_size=0.2)
+    # target_names_shuffled, images_shuffled = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
+    # Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
+
     # X_train, X_val, y_train, y_val = train_test_split(Xtrain, ytrain, test_size=0.5, random_state=0)
+
+    # wb = Workbook()
+    # ws = wb.active
+
+    # for row in Xtrain:
+    #     ws.add_image(row)
+        
+    # wb.save('excel-image.xlsx')
+    # with open("new_file.csv","w+") as my_csv:
+    #     for data in images:  
+    #         # print(data)
+    #         # savetxt('data.csv', data, delimiter=',')
+    #         csvWriter = csv.writer(my_csv,delimiter=',')
+    #         csvWriter.writerows(data)
+        
+    
+        
+    # for i in range(172):  
+    #     CSVData = open("new_file.csv")
+    #     data = np.loadtxt(CSVData, delimiter=",")
+    #     # data = loadtxt('data.csv', delimiter=',')
+    #     cv2.imshow("data", data)
+    #     cv2.waitKey(0)
+    #     cv2.destroyAllWindows()
+
+
+    # Open CSV file for writing
+    # with open('images.csv', 'w', newline='') as csv_file:
+    #     writer = csv.writer(csv_file)
+
+    #     # Write header row
+    #     writer.writerow(['Image', 'Width', 'Height'])
+
+    #     # Write data rows
+    #     for image in images:
+    #         width, height = image.shape
+    #         print(image.shape)
+
+    #         # Convert image to RGB format and flatten pixel values
+    #         # image = image.convert('RGB')
+    #         pixels = image.load()
+    #         pixel_values = [pixels[x, y] for x in range(width) for y in range(height)]
+
+    #         # Write row to CSV file
+    #         writer.writerow(['Image', width, height] + pixel_values)
+
+
+    # with open('images.csv', 'r', newline='') as csv_file:
+    #     reader = csv.reader(csv_file)
+
+    #     # Skip header row
+    #     next(reader)
+
+    #     # Loop over data rows
+    #     for i, row in enumerate(reader):
+    #         # Extract image file path, width, and height
+    #         file_path = row[0]
+
+    #         # Use only the images in the list
+    #         width = int(row[1])
+    #         height = int(row[2])
+
+    #         # Extract flattened pixel values
+    #         pixel_values = [int(p) for p in row[3:]]
+
+    #         # Create image object from pixel values
+    #         img = Image.new('RGB', (width, height))
+    #         pixels = img.load()
+    #         for j in range(len(pixel_values)):
+    #             x = j % width
+    #             y = j // width
+    #             pixels[x, y] = tuple(pixel_values[j:j+3])
+
+    #         # Do something with the image
+    #         # For example, save it to a file with a different name
+
+    #         cv2.imshow("Image", img)
+    #         cv2.waitKey(0)
+    #         cv2.destroyAllWindows()
+
+
+    
+
+    
+    for image in images:
+
+        # Convert image to base64 encoding
+        image_bytes = image.tobytes()
+        base64_encoded_image = base64.b64encode(image_bytes).decode('utf-8')
+
+        # Create a DataFrame with the image data
+        data = pd.DataFrame({'Image': [base64_encoded_image]})
+
+        # Save DataFrame to a CSV file
+        csv_file = './file.csv'
+        data.to_csv(csv_file, index=False)
+
+        # Load DataFrame from CSV file
+        loaded_data = pd.read_csv(csv_file)
+
+        # Retrieve the image from the loaded DataFrame
+        base64_encoded_image = loaded_data['Image'][0]
+        image_bytes = base64.b64decode(base64_encoded_image.encode('utf-8'))
+
+        # Convert the image bytes to PIL Image object
+        loaded_image = Image.open(ios.BytesIO(image_bytes))
+
+        # Display or further process the loaded image
+        loaded_image.show()
 
     Xtrain = features_extraction(Xtrain)
     Xtest = features_extraction(Xtest)
 
+
+
+    # with open('file.csv','wb') as out:
+    #     csv_out=csv.writer(out)
+    #     for row in Xtrain:
+    #         csv_out.writerow(row)
     # n_samples = images_shuffled2.shape[0]
 
     # print("images_shuffled after : ",len(images_shuffled))
@@ -134,7 +263,7 @@ def tunning_classifier(directory):
         np.array(target_names), np.array(images))  # reorder el array bas
 
     Xtrain, Xtest, ytrain, ytest = train_test_split(
-        images_shuffled, target_names_shuffled, random_state=42, test_size=0.3)
+        images_shuffled, target_names_shuffled, random_state=0, test_size=0.3)
     X_test, X_val, y_test, y_val = train_test_split(
         Xtest, ytest, test_size=0.5, random_state=0)
 
