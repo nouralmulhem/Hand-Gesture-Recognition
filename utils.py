@@ -110,7 +110,7 @@ def load_data(directory):
     target_names_shuffled, images_shuffled = shuffle(
         np.array(target_names), np.array(images))  # reorder el array bas
     Xtrain, Xtest, ytrain, ytest = train_test_split(
-        images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
+        images_shuffled, target_names_shuffled, random_state=42, test_size=0.2)
     # X_train, X_val, y_train, y_val = train_test_split(Xtrain, ytrain, test_size=0.5, random_state=0)
 
     Xtrain = features_extraction(Xtrain)
@@ -134,7 +134,7 @@ def tunning_classifier(directory):
         np.array(target_names), np.array(images))  # reorder el array bas
 
     Xtrain, Xtest, ytrain, ytest = train_test_split(
-        images_shuffled, target_names_shuffled, random_state=0, test_size=0.3)
+        images_shuffled, target_names_shuffled, random_state=42, test_size=0.3)
     X_test, X_val, y_test, y_val = train_test_split(
         Xtest, ytest, test_size=0.5, random_state=0)
 

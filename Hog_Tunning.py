@@ -35,7 +35,19 @@ pipeline = Pipeline([
 # Create a grid search object with 5-fold cross-validation
 grid_search = GridSearchCV(pipeline, param_grid, cv=5, n_jobs=-1)
 
-# Fit the grid search object to the training data
+# Define the parameter grid for GridSearchCV
+param_grid = {'hog__cell_size': cell_sizes,
+              'hog__block_size': block_sizes,
+              'hog__orientations': n_bins,
+              'svm__C': [0.1, 1, 10, 100],
+              'svm__gamma': ['scale', 'auto'] + list(np.logspace(-3, 3, 7))}
+
+# Define the pipeline for combining HOG feature extraction and SVM classification
+pipeline = Pipeline([('hog', HogTransformer()),
+                     ('svm', svm)])
+
+# Define the GridSearchCV object and fit to the training data
+grid_search = GridSearchCV(pipeline, param_grid=param_grid, cv=5, verbose=2)
 grid_search.fit(X_train, y_train)
 
 # Print the best parameters and the corresponding score
