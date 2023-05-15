@@ -157,7 +157,9 @@ def calculate_brightness(image, index=None):
     return mean_value
 
 
-def image_pre_processing(image):
+def image_pre_processing(path):
+    image = Image.open(path)
+    img = np.array(image)
     mean_value = calculate_brightness(image)
     image = resize(image, 4 * 128, 4 * 64)
     img_RGB = np.array(image)
