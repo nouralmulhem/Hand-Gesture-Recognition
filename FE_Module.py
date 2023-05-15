@@ -125,4 +125,4 @@ def load_data(directory):
         csvWriter = csv.writer(my_csv,delimiter=',')
         csvWriter.writerows(ytest)
 
-load_data(directory='./Dataset/')
+# load_data(directory='./Dataset/')
