@@ -147,21 +147,20 @@ def get_binary_heigh_constract(img_RGB):
     return erode_img
 
 
-def calculate_brightness(image, index=None):
-    image = np.array(image)
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+def calculate_brightness(gray, index=None):
     mean_value = cv2.mean(gray)[0]
     if index is not None:
-        show_images([image], [str(index)])
+        show_images([gray], [str(index)])
         print("the image "+str(index)+" has mean value : ", mean_value)
     return mean_value
 
 
 def image_pre_processing(path):
     image = Image.open(path)
-    mean_value = calculate_brightness(image)
     image = resize(image, 4 * 128, 4 * 64)
     img_RGB = np.array(image)
+    gray = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2GRAY)
+    mean_value = calculate_brightness(gray)
     dilate_img = None
     if (mean_value >= 190):
         dilate_img = get_binary_heigh_constract(img_RGB)
@@ -204,7 +203,7 @@ def image_pre_processing(path):
     kernel = np.ones((5, 5), np.float32)/25
     result = cv.filter2D(result, -1, kernel)
     result = cv2.resize(result, (128, 64))
-    result = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    result = cv2.cvtColor(result, cv2.COLOR_RGB2GRAY)
     return mask, result
 
 
@@ -213,8 +212,3 @@ def process_image_thread(path, index, results, binaries):
     results[index] = result
     binaries[index] = binary
     return
-
-# image = Image.open("./Dataset/men/1/1_men (13).JPG").convert('RGB')
-# img = np.array(image)
-# binary, result = image_pre_processing(image)
-# show_images([img, binary, result], ['origenal', 'binary ', 'result'])
