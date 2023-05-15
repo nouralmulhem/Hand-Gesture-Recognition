@@ -67,4 +67,4 @@ def tunning_feature_extraction(directory):
     return list_target_names, list_images
 
 
-read_features()
+# read_features()
