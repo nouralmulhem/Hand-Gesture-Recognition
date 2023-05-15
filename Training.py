@@ -2,6 +2,7 @@ from SVM import *
 from RandomForest import *
 from utils import *
 from Performance import *
+from FE_Module import *
 
 
 def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
@@ -19,6 +20,7 @@ def classifier(Xtrain, Xtest, ytrain, ytest, model_path):
     pickle.dump(model, open(model_path, 'wb'))
 
 
-Xtrain, Xtest, ytrain, ytest = load_data(directory='./Dataset/')
+
+Xtrain, Xtest, ytrain, ytest = read_features()
 classifier(Xtrain, Xtest, ytrain, ytest, './models/svm2.pkl')
 # classifier(Xtrain, Xtest, ytrain, ytest, './models/random_forest.pkl')
