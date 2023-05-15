@@ -57,5 +57,5 @@ for i in range(Xtest.shape[0]):
     
 
 
-accuracy = ( ( predicted_classes == ytest ).sum() )/ len(ytest)
-print('Accuracy = ' + str(round(accuracy,4) * 100) + '%')
+accuracy = np.count_nonzero(  predicted_classes == ytest  ) / len(ytest)
+print('Accuracy = ' + accuracy )

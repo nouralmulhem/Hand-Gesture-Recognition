@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import train_test_split
-from utils import tunning_feature_extraction
+from utils import *
 # Load positive and negative image samples
-y,pos_images = tunning_feature_extraction("./Dataset/")
-_,neg_images = tunning_feature_extraction("./Dataset/")
+y1,pos_images = tunning_feature_extraction("./Dataset/")
+y2,neg_images = tunning_feature_extraction("./Dataset/")
 
 # Define Haar-like feature parameters
 win_size = (64, 64)
@@ -33,9 +33,10 @@ for image in neg_images:
 
 # Create training dataset
 X = np.vstack((pos_features, neg_features))
+y = np.hstack((np.asarray(y1), np.asarray(y2)))
 
 # Split dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Train SVM model
 clf = svm.SVC(kernel='linear', C=1)
