@@ -1,5 +1,5 @@
 from utils import *
-
+from FE_Techniques import *
 
 def predict(debug = False):
     classes_list = []
@@ -57,9 +57,6 @@ def predict(debug = False):
                     f2.write('\n') 
 
 predict(debug = True)
-
-
-            
 
 
 
