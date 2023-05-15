@@ -28,6 +28,7 @@ hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
 def obtain_images(directory, debug=False):
     list_target_names = []
     list_images = []
+    name_files = []
 
     for path, subdirs, files in os.walk(directory):
         # if(path.startswith(directory + '.')):
@@ -55,8 +56,9 @@ def obtain_images(directory, debug=False):
 
             list_target_names.append(os.path.basename(path))
             list_images.append(result)
+            name_files.append(name)
 
-    return list_target_names,  list_images
+    return list_target_names, list_images, name_files
 
 # target_names, images = obtain_images("./data/", True)
 
@@ -69,15 +71,15 @@ def fixed_feature_size(list, maxSize):
     return features
 
 
-def features_extraction(images):
+def features_extraction(images, classes, files):
     list = []
     maxSize = 3000
     # list = np.array([hog.compute(image)  for image in images])
     all_size = 0
-    for image in images:
+    for i in range(len(images)):
         # kp, features_list = orb.detectAndCompute(image, None)
         # features_list =lbp(image, radius=3, n_points=8)
-        features = hog_features(image, orientations=9,
+        features = hog_features(images[i], orientations=9,
                                 pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
         # kp, features_list = SIFT_features(image)
@@ -88,7 +90,7 @@ def features_extraction(images):
 
         # list.append(np.concatenate((features, features_list), axis = None))
         # list.append(shi)
-        list.append(features)
+        list.append(np.concatenate((np.concatenate((features, classes[i]), axis = None), files[i]), axis = None))
         # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # list.append(features_list)
     # x = min(list, key=len)
@@ -102,27 +104,19 @@ def features_extraction(images):
 
 def load_data(directory):
 
-    target_names, images = obtain_images(directory)
-    target_names_shuffled, images_shuffled = shuffle(np.array(target_names), np.array(images))  # reorder el array bas
-    Xtrain, Xtest, ytrain, ytest = train_test_split(images_shuffled, target_names_shuffled, random_state=0, test_size=0.2)
+    target_names, images, name_files = obtain_images(directory)
+    target_names_shuffled, images_shuffled, name_files_shuffled = shuffle(np.array(target_names), np.array(images), np.array(name_files))  # reorder el array bas
+    Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(images_shuffled, target_names_shuffled, name_files_shuffled, random_state=0, test_size=0.2)
 
-    Xtrain = features_extraction(Xtrain)
-    Xtest = features_extraction(Xtest)
-
-    with open("./features_files/Xtrain.csv","w+") as my_csv:
-        csvWriter = csv.writer(my_csv,delimiter=',')
-        csvWriter.writerows(Xtrain)
+    train = features_extraction(Xtrain, ytrain, name_train)
+    test = features_extraction(Xtest, ytest, name_test)
         
-    with open("./features_files/Xtest.csv","w+") as my_csv:
+    with open("./features_files/train.csv","w+") as my_csv:
         csvWriter = csv.writer(my_csv,delimiter=',')
-        csvWriter.writerows(Xtest)
+        csvWriter.writerows(train)
         
-    with open("./features_files/ytrain.csv","w+") as my_csv:
+    with open("./features_files/test.csv","w+") as my_csv:
         csvWriter = csv.writer(my_csv,delimiter=',')
-        csvWriter.writerows(ytrain)
-        
-    with open("./features_files/ytest.csv","w+") as my_csv:
-        csvWriter = csv.writer(my_csv,delimiter=',')
-        csvWriter.writerows(ytest)
+        csvWriter.writerows(test)
 
 # load_data(directory='./Dataset/')

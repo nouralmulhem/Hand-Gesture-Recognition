@@ -1,5 +1,8 @@
 from utils import *
+from FE_Techniques import *
 
+import pickle
+import time
 
 def predict(debug = False):
     classes_list = []
@@ -57,9 +60,3 @@ def predict(debug = False):
                     f2.write('\n') 
 
 predict(debug = True)
-
-
-            
-
-
-

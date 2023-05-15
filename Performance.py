@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy
 from sklearn import metrics
 from SVM import *
+import numpy as np
+import csv
 
 def calc_confucion_matrix(actual, predicted, no_classes):
     classes = list(range(0, no_classes))
