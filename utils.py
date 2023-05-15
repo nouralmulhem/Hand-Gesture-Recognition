@@ -54,15 +54,13 @@ def obtain_images(directory, debug=False, prediction_mode=False):
             threads.append(thread)
             binariess.append(None)
             list_images.append(None)
+            list_target_names.append(os.path.basename(path))
             thread.start()
             if debug:
                 print("image name = ", name)
                 # cv2.imshow("Image", image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
-
-            list_target_names.append(os.path.basename(path))
-#             list_images.append(None)
             index += 1
     for thread in threads:
         thread.join()
