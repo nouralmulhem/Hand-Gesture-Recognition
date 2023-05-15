@@ -215,6 +215,12 @@ def image_pre_processing(image):
     return mask, result
 
 
+def process_image_thread(path, index, results, binaries):
+    binary, result = image_pre_processing(path)
+    results[index] = result
+    binaries[index] = binary
+    return
+
 # image = Image.open("./Dataset/men/1/1_men (13).JPG").convert('RGB')
 # img = np.array(image)
 # binary, result = image_pre_processing(image)

@@ -2,7 +2,7 @@
 import os
 import cv2
 import numpy as np
-# from image_preprocessing import *
+from image_preprocessing import *
 
 from collections import defaultdict
 from sklearn.utils import shuffle
@@ -12,6 +12,8 @@ import re
 # import pandas as pd
 import pickle
 # from xgboost import XGBClassifier
+import threading
+import time
 
 from Feature_Extraction import *
 ##########################################################
@@ -30,7 +32,9 @@ hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
 def obtain_images(directory, debug=False, prediction_mode=False):
     list_target_names = []
     list_images = []
-
+    threads = []
+    binariess = []
+    index = 0
     for path, subdirs, files in os.walk(directory):
         # if(path.startswith(directory + '.')):
         #     continue
@@ -44,22 +48,24 @@ def obtain_images(directory, debug=False, prediction_mode=False):
             files_list = list(sorted(files_list, key=(lambda x: int(x[:-4]))))
 
         for name in files_list:
-            # image=cv2.imread(os.path.join(path, name))
-
-            # image = cv2.imread(os.path.join(path, name), cv2.IMREAD_GRAYSCALE)
-            # image=cv2.resize(image, (128, 64)) # multiply by 4
-            # pre processing on the image (madbouly)
-            # image = Image.open(os.path.join(path, name)).convert('RGB')
-            # binary, result = image_pre_processing(image)
-
+            pathh = os.path.join(path, name)
+            thread = threading.Thread(target=process_image_thread, args=(
+                pathh, index, list_images, binariess))
+            threads.append(thread)
+            binariess.append(None)
+            list_images.append(None)
+            thread.start()
             if debug:
                 print("image name = ", name)
-                cv2.imshow("Image", image)
+                # cv2.imshow("Image", image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
 
             list_target_names.append(os.path.basename(path))
-            list_images.append(result)
+#             list_images.append(None)
+            index += 1
+    for thread in threads:
+        thread.join()
 
     return list_target_names,  list_images
 
