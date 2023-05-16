@@ -22,7 +22,7 @@ X_val_combined = np.concatenate([Xtest, X_val_rf], axis=1)
 
 # Train an SVM classifier on the combined features
 # svm = SVC(kernel='rbf', C=1, gamma='scale', probability=True)
-svm = SVC(kernel='poly', C=0.1, random_state=2, coef0=0,
+svm = SVC(kernel='poly', C=0.1, random_state=42, coef0=0,
           degree=4, gamma=100.0, probability=True, class_weight='balanced')
 svm.fit(X_train_combined, ytrain)
 
