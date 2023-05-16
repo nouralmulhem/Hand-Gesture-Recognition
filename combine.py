@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from utils import *
 
 # # Load and split the data into training and validation sets
-Xtrain, Xtest, ytrain, ytest = load_data(directory='./Dataset/')
+Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
 
 
 # Train a Random Forest classifier on the training set
@@ -22,7 +22,8 @@ X_val_combined = np.concatenate([Xtest, X_val_rf], axis=1)
 
 # Train an SVM classifier on the combined features
 # svm = SVC(kernel='rbf', C=1, gamma='scale', probability=True)
-svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=1, degree=4, gamma=0.1, probability=True)
+svm = SVC(kernel='poly', C=0.1, random_state=2, coef0=0,
+          degree=4, gamma=100.0, probability=True, class_weight='balanced')
 svm.fit(X_train_combined, ytrain)
 
 # Evaluate the performance of the combined classifier on the validation set
