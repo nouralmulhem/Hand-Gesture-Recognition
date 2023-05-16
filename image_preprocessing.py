@@ -99,9 +99,22 @@ def get_binary_low_medium_constract(img_RGB):
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
 
     # Apply erosion to the image
-    erode_img = cv2.erode(img_binary, kernel, iterations=2)
-    dilate_img = cv2.dilate(erode_img, kernel, iterations=2)
-    return dilate_img
+    erode_img = cv2.dilate(img_binary, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=2)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=2)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=4)
+    return erode_img
 
 
 def get_binary_heigh_constract(img_RGB):
@@ -140,11 +153,23 @@ def get_binary_heigh_constract(img_RGB):
     # lab_img[:, :, 2] = cv2.equalizeHist(lab_img[:, :, 2])
 
     ret, img_binary1 = cv2.threshold(
-        img_YUV[:, :, 2], 150, 255, cv2.THRESH_BINARY)
+        img_YUV[:, :, 2], 180, 255, cv2.THRESH_BINARY)
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
     dilate_img = cv2.erode(img_binary1, kernel, iterations=1)
     erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
-    return erode_img
+    dilate_img = cv2.erode(erode_img, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=1)
+    dilate_img = cv2.erode(erode_img, kernel, iterations=1)
+    erode_img = cv2.dilate(dilate_img, kernel, iterations=3)
+    return dilate_img
 
 
 def calculate_brightness(gray, index=None):
@@ -212,3 +237,7 @@ def process_image_thread(path, index, results, binaries):
     results[index] = result
     binaries[index] = binary
     return
+_,res=image_pre_processing('./Dataset_new_filtered/men/4/4_men (45).JPG')
+cv2.imshow('image', res)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
