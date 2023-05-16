@@ -13,3 +13,6 @@ models/
 
 __pycache__\
 .idea/
+
+
+features_files/

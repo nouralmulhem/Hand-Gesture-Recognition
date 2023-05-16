@@ -1,17 +1,12 @@
 from utils import *
 from FE_Techniques import *
-
 from collections import defaultdict
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import re
-
-# import pandas as pd
 import pickle
-# from xgboost import XGBClassifier
-
 import csv
-
+import threading
 from PIL import Image
 ##########################################################
 
@@ -25,10 +20,14 @@ nbins = 9
 hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
                         cellSize, nbins)  # hog of opencv
 
+
 def obtain_images(directory, debug=False):
     list_target_names = []
     list_images = []
     name_files = []
+    threads = []
+    binariess = []
+    index = 0
 
     for path, subdirs, files in os.walk(directory):
         # if(path.startswith(directory + '.')):
@@ -44,19 +43,28 @@ def obtain_images(directory, debug=False):
             # result=cv2.resize(image, (128, 64)) # multiply by 4
 
             # pre processing on the image (madbouly)
-            image = Image.open(os.path.join(path, name)).convert('RGB')
-            binary, result = image_pre_processing(image)
-            result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
+            pathh = os.path.join(path, name)
+            thread = threading.Thread(target=process_image_thread, args=(
+                pathh, index, list_images, binariess))
+            threads.append(thread)
+            binariess.append(None)
+            list_images.append(None)
+            list_target_names.append(os.path.basename(path))
+            name_files.append(name)
+            thread.start()
+            index += 1
+            # image = Image.open(os.path.join(path, name)).convert('RGB')
+            # binary, result = image_pre_processing(image)
+            # result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
 
             if debug:
                 print("image name = ", name)
-                cv2.imshow("Image", image)
+                # cv2.imshow("Image", image)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
 
-            list_target_names.append(os.path.basename(path))
-            list_images.append(result)
-            name_files.append(name)
+        for thread in threads:
+            thread.join()
 
     return list_target_names, list_images, name_files
 
@@ -90,7 +98,8 @@ def features_extraction(images, classes, files):
 
         # list.append(np.concatenate((features, features_list), axis = None))
         # list.append(shi)
-        list.append(np.concatenate((np.concatenate((features, classes[i]), axis = None), files[i]), axis = None))
+        list.append(np.concatenate(
+            (np.concatenate((features, classes[i]), axis=None), files[i]), axis=None))
         # features_list, Hog_img = hog_features(image, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(2, 2))
         # list.append(features_list)
     # x = min(list, key=len)
@@ -105,18 +114,20 @@ def features_extraction(images, classes, files):
 def load_data(directory):
 
     target_names, images, name_files = obtain_images(directory)
-    target_names_shuffled, images_shuffled, name_files_shuffled = shuffle(np.array(target_names), np.array(images), np.array(name_files))  # reorder el array bas
-    Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(images_shuffled, target_names_shuffled, name_files_shuffled, random_state=0, test_size=0.2)
+    target_names_shuffled, images_shuffled, name_files_shuffled = shuffle(np.array(
+        target_names), np.array(images), np.array(name_files))  # reorder el array bas
+    Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(
+        images_shuffled, target_names_shuffled, name_files_shuffled, random_state=0, test_size=0.2)
 
     train = features_extraction(Xtrain, ytrain, name_train)
     test = features_extraction(Xtest, ytest, name_test)
-        
-    with open("./features_files/train.csv","w+") as my_csv:
-        csvWriter = csv.writer(my_csv,delimiter=',')
+
+    with open("./features_files/train.csv", "w+") as my_csv:
+        csvWriter = csv.writer(my_csv, delimiter=',')
         csvWriter.writerows(train)
-        
-    with open("./features_files/test.csv","w+") as my_csv:
-        csvWriter = csv.writer(my_csv,delimiter=',')
+
+    with open("./features_files/test.csv", "w+") as my_csv:
+        csvWriter = csv.writer(my_csv, delimiter=',')
         csvWriter.writerows(test)
 
-# load_data(directory='./Dataset/')
+load_data(directory='./Dataset_new_filtered/')
