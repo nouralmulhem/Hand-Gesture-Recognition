@@ -8,7 +8,7 @@ def predict(debug = False):
     classes_list = []
     time_list = []
 
-    pickled_model = pickle.load(open("./models/86%_1.pkl", 'rb'))
+    pickled_model = pickle.load(open("./models/svm.pkl", 'rb'))
     # pickled_model_svm = pickle.load(open("./models/svm_combine.pkl", 'rb'))
     # pickled_model_rf = pickle.load(open("./models/rf_combine.pkl", 'rb'))
     

@@ -22,17 +22,13 @@ def calc_accuracy(y_test, y_pred, model, Xtest):
     print('the accuracy = ', accuracy*100, '%')
 
     # Calculate the precision
-    # precision = precision_score(y_test, y_pred)
-    # print('the precision = ', accuracy)
+    precision = precision_score(y_test, y_pred, pos_label='positive', average='weighted')
+    print('the precision = ', precision*100)
 
     # Calculate the recall
-    # recall = recall_score(y_test, y_pred)
-    # print('the recall = ', accuracy)
+    recall = recall_score(y_test, y_pred, pos_label='positive', average='weighted')
+    print('the recall = ', recall*100)
 
-    # # Calculate the F1 score
-    # f1 = f1_score(y_test, y_pred)
-    # print('the F1 score = ', f1)
-
-    # # Calculate the AUC-ROC score
-    # auc_roc = roc_auc_score(y_test, model.predict_proba(Xtest)[:, 1])
-    # print('the AUC-ROC score = ', f1)
+    # Calculate the F1 score
+    f1 = f1_score(y_test, y_pred, pos_label='positive', average='weighted')
+    print('the F1 score = ', f1*100)
