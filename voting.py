@@ -16,14 +16,14 @@ from sklearn.metrics import accuracy_score
 
 def voting_model(Xtrain,  ytrain):
     # Initialize the individual classifiers
-    knn = KNeighborsClassifier(n_neighbors=5)
+    knn = KNeighborsClassifier(n_neighbors=7)
     svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=1, degree=4, gamma=10.0,class_weight= None, probability=True)
-    rf = RandomForestClassifier( n_estimators=100)
+    rf = RandomForestClassifier( max_depth= None, min_samples_leaf= 1, min_samples_split= 5,n_estimators=100)
     # Create the voting classifier
     voting_clf = VotingClassifier(
         estimators=[('knn', knn), ('svm', svm), ('rf', rf)],
         voting='soft' 
-        # ,weights=[1.3,1.5,1.5]
+        ,weights=[1.4,1.5,1.3]
     )
 
     # Train the voting classifier
