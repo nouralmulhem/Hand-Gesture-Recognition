@@ -59,4 +59,4 @@ for orientation in orientations:
             list_names = []
         
 list_acc = np.asarray(list_acc)
-print(list_acc.max)
+print(np.max(list_acc))

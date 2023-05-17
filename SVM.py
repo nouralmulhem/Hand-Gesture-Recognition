@@ -15,7 +15,11 @@ def svm_model(X_train, X_test, y_train):
 
     # Create an SVM model
     # svm = SVC(kernel='rbf', C=1, random_state=0)
-    svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=1, degree=4, gamma=0.1)
+    # 'kernel': 'poly', 'gamma': 1000.0, 'degree': 4, 'coef0': 0, 'class_weight': 'balanced', 'C': 0.1   84.09
+    # {'kernel': 'poly', 'gamma': 10.0, 'degree': 3, 'coef0': 1, 'class_weight': None, 'C': 0.1}
+    # {'kernel': 'poly', 'gamma': 0.1, 'degree': 5, 'coef0': 0, 'class_weight': 'balanced', 'C': 1}
+
+    svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=1, degree=4, gamma=10.0,class_weight= None)
 
     # Train the SVM model on the training set
     svm.fit(X_train, y_train)
