@@ -12,8 +12,8 @@ print("hello2")
 
 # Define the HOG parameters
 orientations = [6, 8, 9, 10, 12]  # Different values for orientations
-pixels_per_cell = [(8, 8), (16, 16), (32, 32)]  # Different values for pixels per cell
-cells_per_block = [(3, 3)]  # Different values for cells per block
+pixels_per_cell = [(8, 8), (16, 16)]  # Different values for pixels per cell
+cells_per_block = [(1, 1), (2, 2), (3, 3)]  # Different values for cells per block
 
 
 list_features = []
@@ -26,6 +26,7 @@ list_acc = []
 for orientation in orientations:
     for cell_per_block in cells_per_block:
         for pixel_per_cell in pixels_per_cell:
+            print(f"to run ==> Orientation: {orientation}, Pixels per cell: {pixel_per_cell}, Cells per block: {cell_per_block}")
             for i in range(len(list_images)):
                 # print(name_files[i])
                 # Compute the HOG features
@@ -45,11 +46,12 @@ for orientation in orientations:
             list_features = np.asarray(list_features)
             list_classes = np.asarray(list_classes)
             list_names = np.asarray(list_names)
+            # print(list_features, list_classes, list_names)
             Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(list_features, list_classes, list_names, random_state=0, test_size=0.2)
 
             model, y_pred = svm_model(Xtrain, Xtest, ytrain)
             accuracy = accuracy_score(ytest, y_pred)
-            print(f"Orientation: {orientation}, Pixels per cell: {pixel_per_cell}, Cells per block: {cell_per_block}, the accuracy = {accuracy*100}")
+            print(f"the accuracy = {accuracy*100}")
             list_acc.append(accuracy)
             
             list_features = []

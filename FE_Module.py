@@ -88,8 +88,8 @@ def features_extraction(images, classes, files):
     for i in range(len(images)):
         # kp, features_list = orb.detectAndCompute(image, None)
         # features_list =lbp(image, radius=3, n_points=8)
-        features = hog_features(images[i], orientations=8,
-                                pixels_per_cell=(8, 8), cells_per_block=(3, 3))
+        features = hog_features(images[i], orientations=10,
+                                pixels_per_cell=(16, 16), cells_per_block=(2, 2))
         # shi = shiThomasFeatureExtraction(image, 100, 0.01, 10)
         # kp, features_list = SIFT_features(image)
 

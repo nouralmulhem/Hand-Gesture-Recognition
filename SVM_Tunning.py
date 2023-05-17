@@ -3,9 +3,12 @@ from sklearn.svm import SVC
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
 from utils import *
+from FE_Module import *
+
 # Load the iris dataset and scale the features
 print("hello")
-Xtrain, Xtest, ytrain, ytest = read_features()
+load_data(directory='./Dataset_new_filtered/')
+Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
 print("hello2")
 
 # Define the parameter grid
