@@ -4,7 +4,7 @@ from utils import *
 from Performance import *
 # from FE_Module import *
 from combine import *
-import csv
+from voting import *
 
 
 def failures(ytest, y_pred, name_test, true_class=4, prediction_class=0, debug = False):
@@ -43,20 +43,21 @@ def classifier_combine(Xtrain, Xtest, ytrain, ytest, name_train, name_test, mode
 
 
 
-def classifier(Xtrain, Xtest, ytrain, ytest, name_train, name_test, model_name, show_fails=False):
-    model, y_pred = svm_model(Xtrain, Xtest, ytrain)
-    calc_accuracy(ytest, y_pred, model, Xtest)
-    if show_fails:
-        failures(ytest, y_pred, name_test, 5, 0, debug=False)
+def classifier(Xtrain, ytrain, name_train,  model_path, show_fails=False):
+    model = voting_model(Xtrain,  ytrain)
+    # calc_accuracy(ytest, y_pred, model, Xtest)
+    # if show_fails:
+    #     failures(ytest, y_pred, name_test, 5, 0, debug=False)
 
-    calc_confucion_matrix(ytest, y_pred, no_classes=6)
-    pickle.dump(model, open(f'./models/{model_name}', 'wb'))
+    # calc_confucion_matrix(ytest, y_pred, no_classes=6)
+    pickle.dump(model, open(f'./models/{model_path}', 'wb'))
 
 
 
-# Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
-# classifier(Xtrain, Xtest, ytrain, ytest, name_train,
-#            name_test, './models/svm.pkl', show_fails=True)
+Xtrain,  ytrain,  name_train = read_features()
+classifier(Xtrain,  ytrain, name_train,
+        #    name_test, './models/svm.pkl', show_fails=True)
+            'voting.pkl', show_fails=True)
 
 # classifier_combine(Xtrain, Xtest, ytrain, ytest, name_train,name_test, './models/svm_combine.pkl', './models/rf_combine.pkl', show_fails=True)
 # classifier(Xtrain, Xtest, ytrain, ytest, './models/random_forest.pkl')

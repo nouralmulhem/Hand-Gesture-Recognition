@@ -4,7 +4,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
 
-def svm_model(X_train, X_test, y_train):
+def svm_model(X_train, y_train):
 
     # Create an SVM model
     svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=1, degree=4, gamma=10.0,class_weight= None)
@@ -13,6 +13,6 @@ def svm_model(X_train, X_test, y_train):
     svm.fit(X_train, y_train)
 
     # Make predictions on the testing set
-    y_pred = svm.predict(X_test)
+    # y_pred = svm.predict(X_test)
 
-    return svm, y_pred
+    return svm

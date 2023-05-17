@@ -66,6 +66,5 @@ def compare(compare_with = 'test_true.txt'):
     accuracy = accuracy_score(true_lines, res_lines )
     print('the accuracy = ', accuracy*100, '%')
 
-
-# predict(debug = False)
-# compare()
+predict(path = './test_true/', model_name = 'voting.pkl', debug = False)
+compare()
