@@ -9,6 +9,8 @@ def predict(debug = False):
     time_list = []
 
     pickled_model = pickle.load(open("./models/svm.pkl", 'rb'))
+    # pickled_model_svm = pickle.load(open("./models/svm_combine.pkl", 'rb'))
+    # pickled_model_rf = pickle.load(open("./models/rf_combine.pkl", 'rb'))
     
     for path, subdirs, files in os.walk("./test_set_1/"):
         
@@ -40,6 +42,10 @@ def predict(debug = False):
             
             feature_list = hog_features(result, orientations=8,
                                 pixels_per_cell=(8, 8), cells_per_block=(3, 3))
+            
+            # X_test_rf = pickled_model_rf.predict_proba([feature_list])
+
+            # X_train_combined = np.concatenate([[feature_list], X_test_rf], axis=1)
             
             classification = pickled_model.predict([feature_list])
             
