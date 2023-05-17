@@ -118,7 +118,7 @@ def load_data(directory):
     target_names_shuffled, images_shuffled, name_files_shuffled = shuffle(np.array(
         target_names), np.array(images), np.array(name_files))  # reorder el array bas
     Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(
-        images_shuffled, target_names_shuffled, name_files_shuffled, random_state=0, test_size=0.001)
+        images_shuffled, target_names_shuffled, name_files_shuffled, random_state=0, test_size=0.2)
 
     train = features_extraction(Xtrain, ytrain, name_train)
     test = features_extraction(Xtest, ytest, name_test)
@@ -131,4 +131,4 @@ def load_data(directory):
         csvWriter = csv.writer(my_csv, delimiter=',')
         csvWriter.writerows(test)
 
-load_data(directory='./Dataset_new_filtered/')
+# load_data(directory='./Dataset_new_filtered/')

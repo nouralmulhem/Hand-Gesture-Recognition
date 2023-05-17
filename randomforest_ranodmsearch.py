@@ -27,7 +27,7 @@ random_grid = {'n_estimators': n_estimators,
                'bootstrap': bootstrap}
 
 # Perform Randomized Search to find the best hyperparameters
-rf_random = RandomizedSearchCV(estimator = rf, param_distributions = random_grid, n_iter = 400, cv = 5, verbose=2, random_state=42, n_jobs = -1)
+rf_random = RandomizedSearchCV(estimator = rf, param_distributions = random_grid, n_iter = 400, cv = 5, verbose=2, random_state=0, n_jobs = -1)
 rf_random.fit(X_train, y_train)
 
 # Print the best hyperparameters and model accuracy

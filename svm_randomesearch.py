@@ -25,7 +25,7 @@ random_grid = {'C': C,
                'class_weight': class_weight}
 
 # Perform Randomized Search to find the best hyperparameters
-svm_random = RandomizedSearchCV(estimator = svm, param_distributions = random_grid, n_iter = 400, cv = 5, verbose=2, random_state=42, n_jobs = -1)
+svm_random = RandomizedSearchCV(estimator = svm, param_distributions = random_grid, n_iter = 400, cv = 5, verbose=2, random_state=0, n_jobs = -1)
 svm_random.fit(X_train, y_train)
 
 # Print the best hyperparameters and model accuracy

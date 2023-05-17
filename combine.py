@@ -10,7 +10,7 @@ from utils import *
 
 def combine(Xtrain, Xtest, ytrain, ytest):
     # Train a Random Forest classifier on the training set
-    rf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf = RandomForestClassifier(n_estimators=100, random_state=0)
     rf.fit(Xtrain, ytrain)
 
     # Extract the predicted probabilities of the Random Forest classifier as features
@@ -23,7 +23,7 @@ def combine(Xtrain, Xtest, ytrain, ytest):
 
     # Train an SVM classifier on the combined features
     # svm = SVC(kernel='rbf', C=1, gamma='scale', probability=True)
-    svm = SVC(kernel='poly', C=0.1, random_state=42, coef0=0,
+    svm = SVC(kernel='poly', C=0.1, random_state=0, coef0=0,
             degree=4, gamma=100.0, probability=True, class_weight='balanced')
     svm.fit(X_train_combined, ytrain)
 

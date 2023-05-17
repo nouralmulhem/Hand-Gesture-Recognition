@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from utils import *
 # Load the iris dataset and scale the features
 print("hello")
-y, X = tunning_classifier(directory='./Dataset_new_filtered/')
+Xtrain, Xtest, ytrain, ytest = read_features()
 print("hello2")
 
 # Define the parameter grid
@@ -20,7 +20,7 @@ svm = SVC()
 
 # Perform a grid search
 grid_search = GridSearchCV(svm, param_grid, cv=5)
-grid_search.fit(X, y)
+grid_search.fit(Xtrain, ytrain)
 
 # Print the best hyperparameters
 print(grid_search.best_params_)

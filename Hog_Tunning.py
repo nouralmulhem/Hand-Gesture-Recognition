@@ -2,8 +2,9 @@ from sklearn.model_selection import GridSearchCV
 from skimage.feature import hog
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
-from utils import load_data
+from utils import *
 import numpy as np
+
 
 class HogTransformer():
     def __init__(self, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3)):
@@ -18,7 +19,7 @@ class HogTransformer():
         return np.array([hog(x.reshape((28, 28)), orientations=self.orientations, pixels_per_cell=self.pixels_per_cell,
                              cells_per_block=self.cells_per_block) for x in X])
     
-X_train, X_val, y_train, y_val = load_data(directory='./Dataset_new_filtered/')
+X_train, X_val, y_train, y_val = read_features()
 
 # Define the parameter grid to search over
 param_grid = {

@@ -20,3 +20,4 @@ __pycache__\
 test_set_1/
 
 # *.txt
+features_files/train.csv

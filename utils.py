@@ -42,13 +42,6 @@ def read_features():
     return Xtrain, Xtest, ytrain, ytest, name_train, name_test
 
 
-def tunning_classifier(directory):
-
-    Xtrain, Xtest, ytrain, ytest = read_features()
-
-    return ytest, Xtest
-
-
 def tunning_feature_extraction(directory):
 
     list_target_names = []

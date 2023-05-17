@@ -36,7 +36,7 @@ X = np.vstack((pos_features, neg_features))
 y = np.hstack((np.asarray(y1), np.asarray(y2)))
 
 # Split dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
 # Train SVM model
 clf = svm.SVC(kernel='linear', C=1)
