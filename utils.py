@@ -35,10 +35,7 @@ def read_features():
     ytest = np.asarray(ytest).astype('int')
     name_train = np.asarray(name_train)
     name_test = np.asarray(name_test)
-
-    # for x in ytrain:
-    #     print(type(x))
-
+    
     return Xtrain, Xtest, ytrain, ytest, name_train, name_test
 
 

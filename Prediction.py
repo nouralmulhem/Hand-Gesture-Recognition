@@ -2,7 +2,7 @@ from utils import *
 from FE_Techniques import *
 from SVM import *
 
-def predict(path = './data', model_name = 'svm.pkl', debug = False):
+def predict(path = './test_true/', model_name = 'svm.pkl', debug = False):
     classes_list = []
     time_list = []
 
@@ -51,7 +51,6 @@ def predict(path = './data', model_name = 'svm.pkl', debug = False):
                         f.write('\n') 
                         f2.write('\n') 
 
-# predict(debug = False)
 
 
 def compare(compare_with = 'test_true.txt'):
@@ -68,4 +67,5 @@ def compare(compare_with = 'test_true.txt'):
     print('the accuracy = ', accuracy*100, '%')
 
 
+# predict(debug = False)
 # compare()
