@@ -15,12 +15,12 @@ rf = RandomForestClassifier(random_state=0)
 
 # Define the hyperparameter grid to search over
 param_grid = {
-    'n_estimators': [50, 100, 200],
-    'max_depth': [None, 5, 10],
+    'n_estimators': [100, 200, 300],  # Number of trees in the forest
+    'max_depth': [None, 5, 10],       # Maximum depth of each tree
+    # Minimum number of samples required to split a node
     'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4],
-    'max_features': ['sqrt', 'log2', None],
-    'bootstrap': [True, False]
+    # Minimum number of samples required at each leaf node
+    'min_samples_leaf': [1, 2, 4]
 }
 
 # Create a grid search object
@@ -31,3 +31,4 @@ grid_search.fit(Xtrain, ytrain)
 
 # Print the best parameters found by the grid search
 print('Best parameters:', grid_search.best_params_)
+print('Best parameters:', grid_search.best_score_)
