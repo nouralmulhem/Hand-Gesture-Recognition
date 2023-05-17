@@ -4,6 +4,7 @@ from utils import *
 from Performance import *
 # from FE_Module import *
 from combine import *
+import csv
 
 
 def failures(ytest, y_pred, name_test, true_class=4, prediction_class=0, debug = False):

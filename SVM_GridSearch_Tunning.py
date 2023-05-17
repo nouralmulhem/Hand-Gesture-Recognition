@@ -6,10 +6,8 @@ from utils import *
 from FE_Module import *
 
 # Load the iris dataset and scale the features
-print("hello")
 load_data(directory='./Dataset_new_filtered/')
 Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
-print("hello2")
 
 # Define the parameter grid
 param_grid = {'C': [0.1, 1, 10],

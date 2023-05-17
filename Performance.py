@@ -1,10 +1,7 @@
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import matplotlib.pyplot as plt
-import numpy
 from sklearn import metrics
 from SVM import *
-import numpy as np
-import csv
 
 def calc_confucion_matrix(actual, predicted, no_classes):
     classes = list(range(0, no_classes))
@@ -15,6 +12,7 @@ def calc_confucion_matrix(actual, predicted, no_classes):
 
     cm_display.plot()
     plt.show()
+
 
 def calc_accuracy(y_test, y_pred, model, Xtest):
     # Evaluate the performance of the SVM model
