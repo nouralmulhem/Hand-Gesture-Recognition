@@ -112,7 +112,7 @@ def features_extraction(images, classes, files):
     return list
 
 
-def load_data(directory):
+def load_data(directory = './Dataset_new_filtered/'):
 
     target_names, images, name_files = obtain_images(directory)
     target_names_shuffled, images_shuffled, name_files_shuffled = shuffle(np.array(target_names), np.array(images), np.array(name_files))  # reorder el array bas
@@ -130,4 +130,4 @@ def load_data(directory):
         csvWriter = csv.writer(my_csv, delimiter=',')
         csvWriter.writerows(test)
 
-load_data(directory='./Dataset_new_filtered/')
+# load_data(directory='./Dataset_new_filtered/')
