@@ -2,7 +2,6 @@ from SVM import *
 from RandomForest import *
 from utils import *
 from Performance import *
-from FE_Module import *
 
 
 def failures(ytest, y_pred, name_test, true_class=4, prediction_class=0):
