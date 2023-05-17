@@ -44,8 +44,9 @@ def obtain_images(directory, debug=False):
 
             # pre processing on the image (madbouly)
             pathh = os.path.join(path, name)
+            image = Image.open(pathh)
             thread = threading.Thread(target=process_image_thread, args=(
-                pathh, index, list_images, binariess))
+                image, index, list_images, binariess))
             threads.append(thread)
             binariess.append(None)
             list_images.append(None)

@@ -155,8 +155,8 @@ def calculate_brightness(gray, index=None):
     return mean_value
 
 
-def image_pre_processing(path):
-    image = Image.open(path)
+def image_pre_processing(image):
+    # image = Image.open(path)
     image = resize(image, 4 * 128, 4 * 64)
     img_RGB = np.array(image)
     gray = cv2.cvtColor(img_RGB, cv2.COLOR_RGB2GRAY)
@@ -207,8 +207,8 @@ def image_pre_processing(path):
     return mask, result
 
 
-def process_image_thread(path, index, results, binaries):
-    binary, result = image_pre_processing(path)
+def process_image_thread(image, index, results, binaries):
+    binary, result = image_pre_processing(image)
     results[index] = result
     binaries[index] = binary
     return

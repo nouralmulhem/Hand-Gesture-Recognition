@@ -17,3 +17,6 @@ models/
 __pycache__\
 .idea/
 
+test_set_1/
+
+# *.txt

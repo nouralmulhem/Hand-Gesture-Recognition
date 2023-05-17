@@ -43,5 +43,5 @@ def classifier(Xtrain, Xtest, ytrain, ytest, name_train, name_test, model_path, 
 
 Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
 classifier(Xtrain, Xtest, ytrain, ytest, name_train,
-           name_test, './models/svm2.pkl', show_fails=True)
+           name_test, './models/svm.pkl', show_fails=True)
 # classifier(Xtrain, Xtest, ytrain, ytest, './models/random_forest.pkl')
