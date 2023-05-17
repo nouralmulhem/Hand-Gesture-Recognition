@@ -1,57 +1,75 @@
-from sklearn.model_selection import GridSearchCV
-from skimage.feature import hog
-from sklearn.pipeline import Pipeline
-from sklearn.svm import SVC
-from utils import *
+import cv2
+from skimage import feature
+from FE_Module import obtain_images
 import numpy as np
+from sklearn.model_selection import train_test_split
+from SVM import *
+
+list_target_names, list_images, name_files = obtain_images("./Dataset_new_filtered/")
+
+Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(list_images, list_target_names, name_files, random_state=0, test_size=0.2)
+
+# Define the HOG parameters
+orientations = [6, 8, 9, 10, 12]  # Different values for orientations
+pixels_per_cell = [(8, 8), (16, 16)]  # Different values for pixels per cell
+cells_per_block = [(1, 1), (2, 2), (3, 3)]  # Different values for cells per block
 
 
-class HogTransformer():
-    def __init__(self, orientations=9, pixels_per_cell=(8, 8), cells_per_block=(3, 3)):
-        self.orientations = orientations
-        self.pixels_per_cell = pixels_per_cell
-        self.cells_per_block = cells_per_block
+list_features_train = []
+list_classes_train = []
+list_names_train = []
+list_features_test = []
+list_classes_test = []
+list_names_test = []
+list_acc = []
 
-    def fit(self, X, y=None):
-        return self
 
-    def transform(self, X):
-        return np.array([hog(x.reshape((28, 28)), orientations=self.orientations, pixels_per_cell=self.pixels_per_cell,
-                             cells_per_block=self.cells_per_block) for x in X])
-    
-X_train, X_val, y_train, y_val = read_features()
+# Iterate over different parameter combinations
+for orientation in orientations:
+    for cell_per_block in cells_per_block:
+        for pixel_per_cell in pixels_per_cell:
+            print(f"to run ==> Orientation: {orientation}, Pixels per cell: {pixel_per_cell}, Cells per block: {cell_per_block}")
+            for i in range(len(Xtrain)):
+                hog_features = feature.hog(Xtrain[i], orientations=orientation, pixels_per_cell=pixel_per_cell,
+                                            cells_per_block=cell_per_block, visualize=False, transform_sqrt=True,
+                                            block_norm='L2-Hys')
 
-# Define the parameter grid to search over
-param_grid = {
-    'orientations': [8, 9, 10],
-    'pixels_per_cell': [(8, 8), (10, 10), (12, 12)],
-    'cells_per_block': [(2, 2), (3, 3)]
-}
+                list_features_train.append(hog_features)
+                list_classes_train.append(ytrain[i])
+                list_names_train.append(name_train[i])
+                
+            for i in range(len(Xtest)):
+                hog_features = feature.hog(Xtest[i], orientations=orientation, pixels_per_cell=pixel_per_cell,
+                                            cells_per_block=cell_per_block, visualize=False, transform_sqrt=True,
+                                            block_norm='L2-Hys')
 
-# Create a pipeline with the hog feature extractor and the SVM classifier
-pipeline = Pipeline([
-    ('hog', HogTransformer()),
-    ('svm', SVC())
-])
+                list_features_test.append(hog_features)
+                list_classes_test.append(ytest[i])
+                list_names_test.append(name_test[i])
 
-# Create a grid search object with 5-fold cross-validation
-grid_search = GridSearchCV(pipeline, param_grid, cv=5, n_jobs=-1)
 
-# Define the parameter grid for GridSearchCV
-param_grid = {'hog__cell_size': cell_sizes,
-              'hog__block_size': block_sizes,
-              'hog__orientations': n_bins,
-              'svm__C': [0.1, 1, 10, 100],
-              'svm__gamma': ['scale', 'auto'] + list(np.logspace(-3, 3, 7))}
 
-# Define the pipeline for combining HOG feature extraction and SVM classification
-pipeline = Pipeline([('hog', HogTransformer()),
-                     ('svm', svm)])
+            list_features_train = np.asarray(list_features_train)
+            list_classes_train = np.asarray(list_classes_train)
+            list_names_train = np.asarray(list_names_train)
 
-# Define the GridSearchCV object and fit to the training data
-grid_search = GridSearchCV(pipeline, param_grid=param_grid, cv=5, verbose=2)
-grid_search.fit(X_train, y_train)
+            list_features_test = np.asarray(list_features_test)
+            list_classes_test = np.asarray(list_classes_test)
+            list_names_test = np.asarray(list_names_test)
 
-# Print the best parameters and the corresponding score
-print("Best parameters:", grid_search.best_params_)
-print("Best score:", grid_search.best_score_)
+
+
+            model, y_pred = svm_model(list_features_train, list_features_test, list_classes_train)
+            accuracy = accuracy_score(list_classes_test, y_pred)
+            print(f"the accuracy = {accuracy*100}")
+            list_acc.append(accuracy)
+            
+            list_features_train = []
+            list_classes_train = []
+            list_names_train = []
+            list_features_test = []
+            list_classes_test = []
+            list_names_test = []
+        
+list_acc = np.asarray(list_acc)
+print(np.max(list_acc))

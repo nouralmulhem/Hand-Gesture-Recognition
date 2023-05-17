@@ -44,7 +44,7 @@ def classifier_combine(Xtrain, Xtest, ytrain, ytest, name_train, name_test, mode
 
 
 def classifier(Xtrain, ytrain, name_train,  model_path, show_fails=False):
-    model = svm_model(Xtrain,  ytrain)
+    model = voting_model(Xtrain,  ytrain)
     # calc_accuracy(ytest, y_pred, model, Xtest)
     # if show_fails:
     #     failures(ytest, y_pred, name_test, 5, 0, debug=False)

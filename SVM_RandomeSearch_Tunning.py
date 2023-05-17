@@ -4,10 +4,9 @@ import numpy as np
 from utils import *
 from FE_Module import *
 # Load the hand gesture data and split into training and test sets
-print("hello")
 load_data(directory='./Dataset_new_filtered/')
 X_train, X_test, y_train, y_test, name_train, name_test = read_features()
-print("hello2")
+
 # Define the hyperparameter space for SVM
 C = [0.1, 1, 10, 100]
 kernel = [ 'rbf', 'poly']
@@ -34,5 +33,3 @@ svm_random.fit(X_train, y_train)
 print(svm_random.best_params_)
 print(svm_random.best_score_)
 print(svm_random.score(X_test, y_test))
-# {'kernel': 'poly', 'gamma': 100.0, 'degree': 4, 'coef0': 0, 'class_weight': 'balanced', 'C': 0.1}
-# 'kernel': 'poly', 'gamma': 1000.0, 'degree': 4, 'coef0': 0, 'class_weight': 'balanced', 'C': 0.1
