@@ -8,7 +8,7 @@ def predict(debug = False):
     classes_list = []
     time_list = []
 
-    pickled_model = pickle.load(open("./models/svm.pkl", 'rb'))
+    pickled_model = pickle.load(open("./models/84%_1.pkl", 'rb'))
     # pickled_model_svm = pickle.load(open("./models/svm_combine.pkl", 'rb'))
     # pickled_model_rf = pickle.load(open("./models/rf_combine.pkl", 'rb'))
     
@@ -40,8 +40,8 @@ def predict(debug = False):
             binary, result = image_pre_processing(image)
             # result = cv2.cvtColor(result, cv2.COLOR_BGR2GRAY)
             
-            feature_list = hog_features(result, orientations=8,
-                                pixels_per_cell=(8, 8), cells_per_block=(3, 3))
+            feature_list = hog_features(result, orientations=6,
+                                pixels_per_cell=(16, 16), cells_per_block=(3, 3))
             
             # X_test_rf = pickled_model_rf.predict_proba([feature_list])
 

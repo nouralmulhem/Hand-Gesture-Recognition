@@ -131,4 +131,4 @@ def load_data(directory):
         csvWriter = csv.writer(my_csv, delimiter=',')
         csvWriter.writerows(test)
 
-# load_data(directory='./Dataset_new_filtered/')
+load_data(directory='./Dataset_new_filtered/')
