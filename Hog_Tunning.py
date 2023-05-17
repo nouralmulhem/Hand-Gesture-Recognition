@@ -18,7 +18,7 @@ class HogTransformer():
         return np.array([hog(x.reshape((28, 28)), orientations=self.orientations, pixels_per_cell=self.pixels_per_cell,
                              cells_per_block=self.cells_per_block) for x in X])
     
-X_train, X_val, y_train, y_val = load_data(directory='./Dataset/')
+X_train, X_val, y_train, y_val = load_data(directory='./Dataset_new_filtered/')
 
 # Define the parameter grid to search over
 param_grid = {
