@@ -1,12 +1,8 @@
 from os import stat
 from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
-# from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 from sklearn.neural_network import MLPClassifier
-# from sklearn.ensemble import AdaBoostClassifier
-# from sklearn.neural_network import MLPClassifier
-# from sklearn.ensemble import GradientBoostingClassifier
 import numpy as np
 import pickle
 

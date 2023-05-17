@@ -4,7 +4,7 @@ import numpy as np
 from utils import load_data
 
 # Load the hand gesture data and split into training and test sets
-X_train, X_test, y_train, y_test = load_data(directory='./Dataset/')
+X_train, X_test, y_train, y_test = load_data(directory='./Dataset_new_filtered/')
 
 # Define the hyperparameter space for Random Forest
 n_estimators = [int(x) for x in np.linspace(start = 50, stop = 1000, num = 10)]

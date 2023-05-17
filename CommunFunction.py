@@ -1,11 +1,5 @@
-from imutils.perspective import four_point_transform
 from matplotlib import pyplot as plt
-from imutils import contours
 import numpy as np
-import argparse
-import os
-import imutils
-import cv2
 
 
 def show_images(images, titles=None):

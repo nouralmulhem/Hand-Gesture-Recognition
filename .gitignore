@@ -21,3 +21,5 @@ test_set_1/
 
 # *.txt
 features_files/train.csv
+
+test_true/
