@@ -283,11 +283,16 @@ def image_pre_processing(image):
     # Apply a 5x5 averaging kernel to the result
     kernel = np.ones((5, 5), np.float32)/25
     result = cv2.filter2D(result, -1, kernel)
+    if len(contours) > 0:
+        (x, y, w, h) = cv2.boundingRect(biggest_contour)
+        result = result[y:y+h, x:x+w]
+        mask = mask[y:y+h, x:x+w]
+        print(x, y, w, h)
 
     # Resize the result to the desired dimensions and convert to grayscale
     result = cv2.resize(result, (128, 64))
     result = cv2.cvtColor(result, cv2.COLOR_RGB2GRAY)
-
+#     show_images([ result, rotated_img])
     # Return the mask and preprocessed result image as a tuple
     return mask, result
 
