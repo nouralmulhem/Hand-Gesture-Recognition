@@ -17,6 +17,29 @@ import PIL
 import os
 import glob
 
+from matplotlib import pyplot as plt
+import numpy as np
+
+
+def show_images(images, titles=None):
+    # This function is used to show image(s) with titles by sending an array of images and an array of associated titles.
+    # images[0] will be drawn with the title titles[0] if exists
+    # You aren't required to understand this function, use it as-is.
+    n_ims = len(images)
+    if titles is None:
+        titles = ['(%d)' % i for i in range(1, n_ims + 1)]
+    fig = plt.figure()
+    n = 1
+    for image, title in zip(images, titles):
+        a = fig.add_subplot(1, n_ims, n)
+        if image.ndim == 2:
+            plt.gray()
+        plt.imshow(image)
+        a.set_title(title)
+        n += 1
+    fig.set_size_inches(np.array(fig.get_size_inches()) * n_ims)
+    plt.show()
+
 
 def resize(image, width=200, hsize=None):
     # Function to resize an image
@@ -283,11 +306,16 @@ def image_pre_processing(image):
     # Apply a 5x5 averaging kernel to the result
     kernel = np.ones((5, 5), np.float32)/25
     result = cv2.filter2D(result, -1, kernel)
+    if len(contours) > 0:
+        (x, y, w, h) = cv2.boundingRect(biggest_contour)
+        result = result[y:y+h, x:x+w]
+        mask = mask[y:y+h, x:x+w]
+        print(x, y, w, h)
 
     # Resize the result to the desired dimensions and convert to grayscale
     result = cv2.resize(result, (128, 64))
     result = cv2.cvtColor(result, cv2.COLOR_RGB2GRAY)
-
+#     show_images([ result, rotated_img])
     # Return the mask and preprocessed result image as a tuple
     return mask, result
 
