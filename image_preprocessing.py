@@ -11,7 +11,6 @@ from skimage.filters import gaussian
 from tempfile import TemporaryFile
 import numpy as np
 from matplotlib.pyplot import imshow
-from CommunFunction import *
 from PIL import Image
 import PIL
 import os
@@ -233,7 +232,7 @@ def calculate_brightness(gray, index=None):
     # If an index is provided, display the grayscale image and print the mean value
     if index is not None:
         show_images([gray], [str(index)])
-        print("the image "+str(index)+" has mean value : ", mean_value)
+        # print("the image "+str(index)+" has mean value : ", mean_value)
 
     # Return the mean brightness value
     return mean_value
@@ -310,7 +309,7 @@ def image_pre_processing(image):
         (x, y, w, h) = cv2.boundingRect(biggest_contour)
         result = result[y:y+h, x:x+w]
         mask = mask[y:y+h, x:x+w]
-        print(x, y, w, h)
+        # print(x, y, w, h)
 
     # Resize the result to the desired dimensions and convert to grayscale
     result = cv2.resize(result, (128, 64))

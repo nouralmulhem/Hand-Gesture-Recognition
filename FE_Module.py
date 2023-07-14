@@ -18,13 +18,14 @@ hog = cv2.HOGDescriptor(winSize, blockSize, blockStride,
                         cellSize, nbins)  # hog of opencv
 
 
-def obtain_images(directory, debug=False):
+def obtain_images(directory, debug=True):
     list_target_names = []
     list_images = []
     name_files = []
     threads = []
     binariess = []
     index = 0
+    print(directory)
 
     for path, subdirs, files in os.walk(directory):
         if debug:
@@ -34,15 +35,26 @@ def obtain_images(directory, debug=False):
             
             pathh = os.path.join(path, name)
             image = Image.open(pathh)
-            thread = threading.Thread(target=process_image_thread, args=(
-                image, index, list_images, binariess))
-            threads.append(thread)
+            rotated_img = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+            rotated_img = cv2.rotate(rotated_img, cv2.ROTATE_90_CLOCKWISE)
             binariess.append(None)
             list_images.append(None)
+            binariess.append(None)
+            list_images.append(None)
+    
+            thread = threading.Thread(target=process_image_thread, args=(
+                image, index, list_images, binariess))
+            thread2 = threading.Thread(target=process_image_thread, args=(
+                rotated_img, index+1, list_images, binariess))
+            
+            threads.append(thread)
+            threads.append(thread2)
+            
             list_target_names.append(os.path.basename(path))
             name_files.append(name)
             thread.start()
-            index += 1
+            thread2.start()
+            index += 2
 
             if debug:
                 print("image name = ", name)
@@ -91,14 +103,16 @@ def features_extraction(images, classes, files):
 
 
 def load_data(directory = './Dataset_new_filtered/'):
-
-    target_names, images, name_files = obtain_images(directory) # load the images and apply image preprocessing
+    target_names, images, name_files = obtain_images(directory, True) # load the images and apply image preprocessing
+    print("finished obtaining images")
+    print(len(images), len(target_names), len(name_files))
     target_names_shuffled, images_shuffled, name_files_shuffled = shuffle(np.array(target_names), np.array(images), np.array(name_files))  # reorder el array only to get different seeds every run
     Xtrain, Xtest, ytrain, ytest, name_train, name_test = train_test_split(
         images_shuffled, target_names_shuffled, name_files_shuffled, random_state=0, test_size=0.2) # split the data set into a testset of 20% and train set of 80%
 
     train = features_extraction(Xtrain, ytrain, name_train)
     test = features_extraction(Xtest, ytest, name_test)
+    print("finished extracting features")
 
     # write the train feature set and test feature set in csv files
     with open("./features_files/train.csv", "w+") as my_csv:

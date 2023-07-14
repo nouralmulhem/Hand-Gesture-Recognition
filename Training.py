@@ -59,9 +59,9 @@ def classifier(Xtrain, Xtest, ytrain, ytest, name_train, name_test, model_name, 
     calc_confucion_matrix(ytest, y_pred, no_classes=6)
 
 
-Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
-classifier(Xtrain, Xtest, ytrain, ytest, name_train,
-           name_test, './models/svm.pkl', show_fails=True)
+# Xtrain, Xtest, ytrain, ytest, name_train, name_test = read_features()
+# classifier(Xtrain, Xtest, ytrain, ytest, name_train,
+#            name_test, 'svm.pkl', show_fails=True)
 
 # classifier_voting_model(Xtrain,  ytrain, name_train,
 #             'voting.pkl', show_fails=True)
