@@ -35,8 +35,6 @@ def obtain_images(directory, debug=True):
 
             pathh = os.path.join(path, name)
             image = Image.open(pathh)
-            rotated_img = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
-            rotated_img = cv2.rotate(rotated_img, cv2.ROTATE_90_CLOCKWISE)
             binariess.append(None)
             list_images.append(None)
             binariess.append(None)
@@ -44,16 +42,14 @@ def obtain_images(directory, debug=True):
 
             thread = threading.Thread(target=process_image_thread, args=(
                 image, index, list_images, binariess))
-            # thread2 = threading.Thread(target=process_image_thread, args=(
-            #     rotated_img, index+1, list_images, binariess))
 
             threads.append(thread)
-            # threads.append(thread2)
 
             list_target_names.append(os.path.basename(path))
+            list_target_names.append(os.path.basename(path))
+            name_files.append(name)
             name_files.append(name)
             thread.start()
-            # thread2.start()
             index += 2
 
             if debug:
