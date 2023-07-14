@@ -324,8 +324,15 @@ def process_image_thread(image, index, results, binaries):
 
     # Perform image pre-processing to obtain the binary mask and processed image
     binary, result = image_pre_processing(image)
+    rotated_result = cv2.rotate(result, cv2.ROTATE_90_CLOCKWISE)
+    rotated_result = cv2.rotate(rotated_result, cv2.ROTATE_90_CLOCKWISE)
+    rotated_binary = cv2.rotate(binary, cv2.ROTATE_90_CLOCKWISE)
+    rotated_binary = cv2.rotate(rotated_binary, cv2.ROTATE_90_CLOCKWISE)
 
     # Store the processed image and binary mask in the corresponding lists at the given index
     results[index] = result
     binaries[index] = binary
+    results[index+1] = rotated_result
+    binaries[index+1] = rotated_binary
+
     return
