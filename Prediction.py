@@ -1,6 +1,8 @@
 from utils import *
 from FE_Techniques import *
 from SVM import *
+import time
+import pickle
 
 def predict(path = './test_true/', model_name = 'svm.pkl', debug = False):
     classes_list = []
@@ -39,8 +41,8 @@ def predict(path = './test_true/', model_name = 'svm.pkl', debug = False):
             time_list.append(difference)
             
 
-        with open("results.txt", 'w') as f:
-            with open("time.txt", 'w') as f2:
+        with open("./results/results.txt", 'w') as f:
+            with open("./results/time.txt", 'w') as f2:
                 for i in range(len(classes_list)):
                     if debug:
                         f.write(str(test_cases_names[i]))
@@ -53,15 +55,14 @@ def predict(path = './test_true/', model_name = 'svm.pkl', debug = False):
 
 
 
-def compare(compare_with = 'test_true.txt'):
-    text_file = open("results.txt", "r")
+def compare(compare_with = './results/test_true.txt'):
+    text_file = open("./results/results.txt", "r")
     res_lines = text_file.read().split('\n')
     res_lines = np.asarray(res_lines, dtype=np.int8)
-    # print(res_lines)
+
     text_file = open(compare_with, "r")
     true_lines = text_file.read().split('\n')
     true_lines = np.asarray(true_lines, dtype=np.int8)
-    # print(true_lines)
 
     accuracy = accuracy_score(true_lines, res_lines )
     print('the accuracy = ', accuracy*100, '%')

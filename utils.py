@@ -6,40 +6,33 @@ import pandas as pd
 
 from image_preprocessing import *
 
-import pickle
-import time
-import threading
-
 
 def read_features():
 
     iris_data = pd.read_csv('./features_files/train.csv', sep=',')
     train = np.asarray(iris_data)
 
-    # iris_data = pd.read_csv('./features_files/test.csv', sep=',')
-    # test = np.asarray(iris_data)
+    iris_data = pd.read_csv('./features_files/test.csv', sep=',')
+    test = np.asarray(iris_data)
 
     tupple = len(train[0])
     Xtrain = train[:, 0:tupple-2]
-    # Xtest = test[:, 0:tupple-2]
+    Xtest = test[:, 0:tupple-2]
 
     ytrain = train[:, tupple-2]
-    # ytest = test[:, tupple-2]
+    ytest = test[:, tupple-2]
 
     name_train = train[:, tupple-1]
-    # name_test = test[:, tupple-1]
+    name_test = test[:, tupple-1]
 
     Xtrain = np.asarray(Xtrain)
-    # Xtest = np.asarray(Xtest)
+    Xtest = np.asarray(Xtest)
     ytrain = np.asarray(ytrain).astype('int')
-    # ytest = np.asarray(ytest).astype('int')
+    ytest = np.asarray(ytest).astype('int')
     name_train = np.asarray(name_train)
-    # name_test = np.asarray(name_test)
+    name_test = np.asarray(name_test)
 
-    # for x in ytrain:
-    #     print(type(x))
-
-    return Xtrain,  ytrain,  name_train
+    return Xtrain, Xtest, ytrain, ytest, name_train, name_test
 
 
 def tunning_feature_extraction(directory):
@@ -62,4 +55,3 @@ def tunning_feature_extraction(directory):
     return list_target_names, list_images
 
 
-# read_features()
